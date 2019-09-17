@@ -1,19 +1,12 @@
 #this file contains methods to create, populate, and print a board
 
-#size of board, number of squares on each side
-boardSize = 8
-
-#initialize the board
+#size of board, number of squares on each side and initialize  the board with [] to represent squares
 def createBoard(fBoard):
-    for i in range(boardSize):
-        fBoard.append(0)
-    for j in range(len(fBoard)):
-        for k in range(boardSize):
-            fBoard[j].append(0)
-#end createBoard
+  row, col = (8,8)
+  Board =[['[]' for i in range(col)]for j in range(row)]
 
-#print board
-def printBoard(fBoard):
-    print(fBoard)
-#end print board
+  for row in Board:
+      print(*row) 
+
+
 
