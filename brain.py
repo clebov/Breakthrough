@@ -21,7 +21,7 @@ col = board.col
 def getPossibleStates(fCurrentStates, fCurrentTurn):
     #holds one state to be stored into newStates
     pState = copy.deepcopy(fCurrentStates)
-    tempState = []
+    #tempState = []
     tempIndexCounter = 0
     newStates = []
     moves = {'L', 'F', 'R'}
@@ -33,7 +33,8 @@ def getPossibleStates(fCurrentStates, fCurrentTurn):
                 #print("Checking moves from:\n")
                 #board.printBoard(fCurrentStates[a])
                 for move in moves:
-                    tempState.append(copy.deepcopy(pState[a]))
+                    #tempState.append(copy.deepcopy(pState[a]))
+                    tempState = copy.deepCopy(fCurrentState
                     if(board.makeMove(tempState[tempIndexCounter], int(i), int(j), move)):
                         board.printBoard(tempState[tempIndexCounter])
                         newStates.append(tempState[tempIndexCounter])

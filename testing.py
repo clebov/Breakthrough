@@ -10,6 +10,8 @@ currentState = []
 currentState.append(test1)
 brain.getPossibleStates(currentState, 0)
 
+
+
 #print(test1)
 
 #for eachState in currentState:
