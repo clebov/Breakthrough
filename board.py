@@ -82,6 +82,7 @@ def movePiece(fBoard, oldRow, oldCol, newRow, newCol):
 
 
 #make a valid move, follows game rules for Breakthrough
+#   returns true if a move was made or false if an error was found
 #   player will be 0 for White, or 1 for Black
 #   move refers to a character, L, F, or R, to reference a left, forward, or right move
 #   left and right flip orientation depending on the player
@@ -91,13 +92,13 @@ def makeMove(fBoard, oldRow, oldCol, move):
     #check that valid space is being targeted
     if (not(isOnBoard(oldRow, oldCol))):
         print("Error, makeMove: targeted space is not on the board.")
-        return
+        return False
 
     #determine if a piece is being targeted and which player
     fPlayer = -1
     if fBoard[oldRow][oldCol] == blankSpace:
         print("Error, makeMove: please target a piece, not an empty space.\n")
-        return
+        return False
     
     if fBoard[oldRow][oldCol] == whiteToken:
         fPlayer = 0
@@ -107,7 +108,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
         #print("Player Number: " + str(fPlayer) + ".\n")
     else:
         print("Error, makeMove: improper piece at (" + str(oldRow) + ", " + str(oldCol) + ").\n") 
-        return
+        return False
 
     #determine vertical direction, up or down
     #   remember the list indeces for the vertical movement are reversed
@@ -119,7 +120,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
         vert = 1
     else:
         print("Error, makeMove: please enter valid player (0 or 1).\n")
-        return
+        return False
 
     #determine horizontal direction if any, left or right
     horiz = 0
@@ -131,7 +132,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
         horiz = 0-vert
     else:
         print("Error, makeMove: please enter a valid move (L, F, or R)\n")
-        return
+        return False
 
     #candidate coordinates for new move
     newRow = oldRow + vert
@@ -140,7 +141,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
     #determine if potential move is on board
     if(not(isOnBoard(newRow, newCol))):
         print("Error, makeMove: candidate move goes off the board.\n")
-        return
+        return False
 
     #get token of players
     playerToken = ''
@@ -153,7 +154,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
         enemyToken = whiteToken
     else:
         print("Error, makeMove: please enter valid player (0 or 1)\n")
-        return
+        return False
 
     #determine if potential move is blocked
     #blocked by a friendly piece
@@ -161,23 +162,25 @@ def makeMove(fBoard, oldRow, oldCol, move):
         print("Error, makeMove: cannot move into friendly piece " + playerToken + 
               " at (" + str(newRow) + ", " + str(newCol) + "): " +
               fBoard[newRow][newCol] + ".\n")
-        return
+        return False
 
     #blocked by enemy piece in front of player
     if(move == 'F' and (fBoard[newRow][newCol] != blankSpace)):
         print("Error, makeMove: cannot move directly forward into enemy piece " + 
               enemyToken + " at (" + str(newRow) + ", " + str(newCol) + ").\n")
-        return
+        return False
 
     #at this point, the new move is:
     #   on the board
     #   is not blocked by a friendly piece at all
     #   is not block by an enemy piece if it is a forward move
     #therefore move piece
-    print("makeMove: moving piece " + fBoard[oldRow][oldCol] + " to (" + 
+    print("makeMove: moving piece " + fBoard[oldRow][oldCol] + " from (" +
+          str(oldRow) + ", " + str(oldCol) + ") to (" + 
           str(newRow) + ", " + str(newCol) + ").") 
     fBoard[newRow][newCol] = playerToken
     fBoard[oldRow][oldCol] = blankSpace
+    return True
 
 #end makeMove
 
