@@ -125,7 +125,7 @@ def makeMove(fBoard, oldRow, oldCol, move):
     #determine horizontal direction if any, left or right
     horiz = 0
     if move == 'F':     #forward
-        horiz = 0
+        None
     elif move == 'L':   #left
         horiz = vert
     elif move == 'R':   #right
