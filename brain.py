@@ -5,7 +5,7 @@
 #       suitable to given strategies
 
 import copy
-
+import Tree
 #get row and columns from board.py
 import board
 row = board.row
@@ -26,8 +26,9 @@ def getPossibleStates(fCurrentStates, fCurrentTurn):
     newStates = []
     moves = {'L', 'F', 'R'}
     for a in range(len(fCurrentStates)):
-        #make empty binary tree
 
+        ## empty tree 
+        brainNode = None       
         for i in range(row):
             for j in range(col):
                 #print("Checking moves from:\n")
