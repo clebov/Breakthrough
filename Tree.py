@@ -26,6 +26,14 @@ def addNode(root, newNode):
         # CHANGE THIS BEFORE DUE DATE!!!!!!!!
         print("sHiT HaPpEnD")
 
+def Max(root):
+    if root.right != None:
+        return False
+
+
+
+
+
 # Function to  print level order traversal of tree 
 def printLevelOrder(root): 
     h = height(root) 
