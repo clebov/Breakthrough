@@ -1,5 +1,8 @@
 import board
 
+print("\n################### Start Breakthrough.py ###################\n")
+
+
 mainBoard = board.createBoard()
 
 board.setStartingPieces(mainBoard)
@@ -14,6 +17,7 @@ board.movePiece(mainBoard, 3, 3, 4, 4)
 board.printBoard(mainBoard)
 board.movePiece(mainBoard, 8, 8, 11, 11)
 board.printBoard(mainBoard)
+
 
 #testing makeMove, move each piece forward one
 for i in range(board.row):
@@ -58,6 +62,4 @@ board.makeMove(testBoard02, 2, 1, 'R')
 board.printBoard(testBoard02)
 board.makeMove(testBoard02, 1, 2, 'F')
 board.printBoard(testBoard02)
-
-
 
