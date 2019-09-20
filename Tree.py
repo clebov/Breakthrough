@@ -4,64 +4,91 @@
 #create class that represents an individual node in
 #a binary tree
 
-import brain
-import Breakthrough
+row = 8
+col = 8
+
+#character token to represent an empty space on the board
+blankSpace = '[]'
+#character token to represent spaces occupied by player pieces
+blackToken = 'BB'
+whiteToken = 'WW'
+
+
+
+#initialize the board with [] to represent squares
+
+fBoard = [[blankSpace for i in range(col)]for j in range(row)]
+  
+#end createBoard
 
 class Node:
-    def __init__(self, key, fboard):
+    def __init__(self, key, fBoard):
         self.left = None
         self.right = None
+
         self.val = key
-        self.state = fboard
+        self.state = fBoard
 
 ##### recursive function to add new node to the tree
-def addNode(root, newNode):
-    if root == None:
-        root = newNode
-    elif newNode.val <= root.val:
-        addNode(root.left, newNode)
-    elif newNode.val > root.val:
-        addNode(root.right, newNode)
-    else:
+def insert(root, key, fBoard): 
+    if root is None : 
+        return Node(key, fBoard) 
+    else: 
+        if key <= root.val: 
+           root.left = insert(root.left, key, fBoard) 
+        else: 
+            root.right = insert(root.right, key, fBoard) 
+  
+        return root
         # CHANGE THIS BEFORE DUE DATE!!!!!!!!
         print("sHiT HaPpEnD")
 
-def Max(root):
-    if root.right != None:
-        return False
 
 
+''' following is the tree that is created
+                1
+               /  \
+            none    none
+'''
+root = None
+root = insert(root, 6 , fBoard)
+insert(root, 2 , fBoard)
+insert(root, 3 , fBoard)
+insert(root, 20 , fBoard)
 
-
-
-# Function to  print level order traversal of tree 
-def printLevelOrder(root): 
-    h = height(root) 
-    for i in range(1, h+1): 
-        printGivenLevel(root, i) 
-
-
-""" Compute the height of a tree--the number of nodes 
-    along the longest path from the root node down to 
-    the farthest leaf node 
-"""
-def height(node): 
-    if node is None: 
-        return 0 
-    else : 
-        # Compute the height of each subtree  
-        lheight = height(node.left) 
-        rheight = height(node.right) 
+def printInorder(root, fBoard): 
   
-        #Use the larger one 
-        if lheight > rheight : 
-            return lheight+1
-        else: 
-            return rheight+1
+    if root: 
   
-        #print the board
-def inorder(tree):
-  if tree != None:
-      inorder(tree.getLeftChild())
-      print(tree.getRootVal())
-      inorder(tree.getRightChild())
+        # First recur on left child 
+        printInorder(root.left, fBoard)
+  
+  
+        # then print the data of node 
+        print(root.val)
+        for row in fBoard:
+            print(*row) 
+           
+        
+        # now recur on right child 
+        printInorder(root.right, fBoard) 
+       
+
+printInorder(root,fBoard)
+
+min(root)
+
+
+def max(root): 
+      
+    if root.right == None:
+        return root.key
+    else:
+        return min(root.right)
+
+                
+def min(root):
+    if root.left == None:
+        return root.key
+    else:
+        return min(root.left)
