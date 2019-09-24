@@ -1,4 +1,3 @@
-
 #testing how to make a binary tree
 
 #create class that represents an individual node in
@@ -16,9 +15,7 @@ whiteToken = 'WW'
 
 
 #initialize the board with [] to represent squares
-
 fBoard = [[blankSpace for i in range(col)]for j in range(row)]
-  
 #end createBoard
 
 class Node:
@@ -38,24 +35,17 @@ def insert(root, key, fBoard):
            root.left = insert(root.left, key, fBoard) 
         else: 
             root.right = insert(root.right, key, fBoard) 
-  
         return root
-        # CHANGE THIS BEFORE DUE DATE!!!!!!!!
-        print("sHiT HaPpEnD")
+        
 
-
-
-''' following is the tree that is created
-                1
-               /  \
-            none    none
-'''
 root = None
 root = insert(root, 6 , fBoard)
 insert(root, 2 , fBoard)
 insert(root, 3 , fBoard)
 insert(root, 20 , fBoard)
 
+
+#prints the binary tree in order form when tehe data was entered
 def printInorder(root, fBoard): 
   
     if root: 
@@ -76,19 +66,21 @@ def printInorder(root, fBoard):
 
 printInorder(root,fBoard)
 
-min(root)
-
-
-def max(root): 
+#put an "Heuristic" after min and max to reduce the confusion of using the functions we defined vs the ones built into python
+#find the Heuristic with the highest value 
+def maxHeuristic(root): 
       
     if root.right == None:
         return root.key
     else:
-        return min(root.right)
+        return minHeuristic(root.right)
 
-                
-def min(root):
+#find the Heuristic with the lowest value
+def minHeuristic(root):
     if root.left == None:
-        return root.key
+        return root.val
     else:
-        return min(root.left)
+        return minHeuristic(root.left)
+
+print(maxHeuristic(root))
+print(minHeuristic(root))
