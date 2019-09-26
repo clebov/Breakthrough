@@ -21,10 +21,11 @@ col = board.col
 #   a "state" is a copy of a board
 #   in MAIN a board should not be passed into this function, but should be 
 #       appended to an empty list first
-def getPossibleStates(fCurrentStates, fCurrentTurn):
+def getPossibleStates(fCurrentState, fCurrentTurn):
 
     #define tree to be returned at end of function
     newStates = None
+    newStates = Tree.insert(newStates, 0, copy.deepcopy(fCurrentState))
 
     #char list of possible moves, left, forward, right, for looping. 
     moves = {'L', 'F', 'R'}
@@ -37,7 +38,7 @@ def getPossibleStates(fCurrentStates, fCurrentTurn):
         playerToken == board.blackToken
 
     #for each possible move from current states
-    for a in range(len(fCurrentStates)):
+    for a in range(len(fCurrentState)):
         for i in range(row):
             for j in range(col):
                 #print("Checking moves from:\n")
@@ -45,13 +46,12 @@ def getPossibleStates(fCurrentStates, fCurrentTurn):
                 for move in moves:
                     #tempState.append(copy.deepcopy(pState[a]))
                     #[tempIndexCounter]
-                    tempState = copy.deepcopy(fCurrentStates[a])
+                    tempState = copy.deepcopy(fCurrentState[a])
                     if(board.makeMove(tempState, int(i), int(j), move)):
+                        print("Valid move found: ")
                         board.printBoard(tempState)
-                        #newStates.append(tempState)
-                        #create node with heuristic and state
-
                         #add node to tree
+                        Tree.insert(newStates, getHeuristic(), copy.deepcopy(tempState))
 
     #end for a, i, j
 

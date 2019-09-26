@@ -9,18 +9,19 @@
 #4.
 
 import board
+import copy
 
-row = 8
-col = 8
+row = board.row
+col = board.col
 
 #character token to represent an empty space on the board
-blankSpace = '[]'
+blankSpace = board.blankSpace
 #character token to represent spaces occupied by player pieces
-blackToken = 'BB'
-whiteToken = 'WW'
+blackToken = board.blackToken
+whiteToken = board.whiteToken
 
 #initialize the board with [] to represent squares
-fState = [[blankSpace for i in range(col)]for j in range(row)]
+treeBoard = [[blankSpace for i in range(col)]for j in range(row)]
 
 #end createBoard
 #put an "Heuristic" after min and max to reduce the confusion of using the functions we defined vs the ones built into python
@@ -32,11 +33,35 @@ class Node(object):
         self.nextTurns = []
         self.heuristic = key
         self.state = fState
-
+"""
     def __cmp__(self, other):
         if hasattr(other, 'heuristic'):
             return self.heuristic.__cmp__(other.heuristic)
 
+    def __eq__(self, other):
+        return ((self.heuristic) == (other.heuristic))
+
+    def __ne__(self, other):
+        return ((self.heuristic) != (other.heuristic))
+
+    def __lt__(self, other):
+        return ((self.heuristic) < (other.heuristic))
+
+    def __le__(self, other):
+        return ((self.heuristic) <= (other.heuristic))
+
+    def __gt__(self, other):
+        return ((self.heuristic) > (other.heuristic))
+
+    def __ge__(self, other):
+        return ((self.heuristic) >= (other.heuristic))
+"""
+
+#def createNode(key,fState):
+#    return Node(key, fState) 
+
+def getNodeKey(thisNode):
+    return thisNode.heuristic
 
 def maxHeuristic(root): 
       
@@ -44,11 +69,6 @@ def maxHeuristic(root):
         return root
     else:
         return minHeuristic(root.right)
-
-def createNode(key,fState):
-    return Node(key,fState)
-
-
 
 #find the Heuristic with the lowest value
 def minHeuristic(root):
@@ -60,29 +80,36 @@ def minHeuristic(root):
 ##### recursive function to add new node to the tree
 def insert(root, key, fState): 
     if root == None: 
-        return createNode(key,fState)
+        return Node(key,fState)
     else: 
         root.nextTurns.append((Node(key, fState)))
-        sorted(root.nextTurns)    
+        #sorted(root.nextTurns, key = getNodeKey)    
         
 #prints the binary tree in order form when tehe data was entered
-def printInorder(root): 
-  
+def printTree(root): 
     if root:
-        # then print the data of node 
-        for i in int (range(root.nextTurns)):
-            print(root.heuristic)
-        for i in int(range(root.nextTurns)):
-            print(printInorder(root.nextTurns[i]))
-   
-        
+        counter = 0
+        #then print the data of node 
+        print(counter)
+        print(root.heuristic)
+        board.printBoard(root.state)
+        counter += 1
+        for i in range(len(root.nextTurns)):
+            print(counter)
+            print(root.nextTurns[i].heuristic)
+            board.printBoard(root.nextTurns[i].state)
+            counter += 1
+#end print
+
+  
 root = None
-root = insert(root, 9 , fState)
-insert(root, 6 , fState)
-insert(root, 2 , fState)
-insert(root, 3 , fState)
-insert(root, 20 , fState)
-printInorder(root)
+root = insert(root, 9 , copy.deepcopy(treeBoard))
+insert(root, 6 , copy.deepcopy(treeBoard))
+insert(root, 2 , copy.deepcopy(treeBoard))
+board.setStartingPieces(treeBoard) 
+insert(root, 3 , copy.deepcopy(treeBoard))
+insert(root, 20 , copy.deepcopy(treeBoard))
+printTree(root)
 
 print()
 print()
