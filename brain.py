@@ -25,7 +25,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn):
 
     #define tree to be returned at end of function
     newStates = None
-    newStates = Tree.insert(newStates, 0, copy.deepcopy(fCurrentState[0]))
+    newStates = tree.insert(newStates, 0, copy.deepcopy(fCurrentState[0]))
 
     #char list of possible moves, left, forward, right, for looping. 
     moves = {'L', 'F', 'R'}
@@ -51,7 +51,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn):
                         print("Valid move found: ")
                         board.printBoard(tempState)
                         #add node to tree
-                        Tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
+                        tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
 
     #end for a, i, j
 

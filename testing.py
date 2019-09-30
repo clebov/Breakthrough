@@ -23,6 +23,8 @@ board.printBoard(currentState[0])
 board.printBoard(test1)
 
 
+
+print("__________")
 progressedBoard = board.createBoard()
 board.placePiece(progressedBoard, 2, 3, board.whiteToken)
 board.placePiece(progressedBoard, 5, 4, board.whiteToken)
