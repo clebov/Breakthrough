@@ -12,7 +12,7 @@ board.printBoard(test1)
 currentState = tree.Node(0, test1)
 #currentState.append(test1)
 
-currentState.nextTurns = brain.getPossibleStates(currentState, 0, 0)
+currentState.nextTurns = brain.getPossibleStates(currentState, 0, 1)
 
 #for i in range(len(currentState.nextTurns)):
 #    currentState.nextTurns[i].nextTurns = brain.getPossibleStates(currentState.nextTurns[i], 1, 0)
