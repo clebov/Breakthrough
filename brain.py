@@ -5,7 +5,7 @@
 #       suitable to given strategies
 
 import copy
-import Tree
+import tree
 import random
 
 #get row and columns from board.py
@@ -25,7 +25,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn):
 
     #define tree to be returned at end of function
     newStates = None
-    newStates = Tree.insert(newStates, 0, copy.deepcopy(fCurrentState))
+    newStates = Tree.insert(newStates, 0, copy.deepcopy(fCurrentState[0]))
 
     #char list of possible moves, left, forward, right, for looping. 
     moves = {'L', 'F', 'R'}
@@ -51,7 +51,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn):
                         print("Valid move found: ")
                         board.printBoard(tempState)
                         #add node to tree
-                        Tree.insert(newStates, getHeuristic(), copy.deepcopy(tempState))
+                        Tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
 
     #end for a, i, j
 
@@ -61,7 +61,21 @@ def getPossibleStates(fCurrentState, fCurrentTurn):
 
 #end getPossibleStates
 
-def getHeuristic():
+
+#find the heuristic value of a given node
+#   the heuristic is defined as the number of white peices on a board. 
+#   the white player if playing defensively will search for a higher heureistic
+#   the black player if playing offensivley will search for a lower heuristic
+#   a random float >=0 but <1 is added to break ties.
+def getHeuristic(fState):
     h = random.random()
+
+    #for a in range(len(fState)):
+    for i in range(row):
+        for j in range(col):
+            if fState[i][j] == board.whiteToken:
+                h += 1
+    
     print("getHeuristic: heuristic returned: " + str(h) + ".\n")
     return h 
+#end getHeuristic

@@ -33,29 +33,7 @@ class Node(object):
         self.nextTurns = []
         self.heuristic = key
         self.state = fState
-"""
-    def __cmp__(self, other):
-        if hasattr(other, 'heuristic'):
-            return self.heuristic.__cmp__(other.heuristic)
 
-    def __eq__(self, other):
-        return ((self.heuristic) == (other.heuristic))
-
-    def __ne__(self, other):
-        return ((self.heuristic) != (other.heuristic))
-
-    def __lt__(self, other):
-        return ((self.heuristic) < (other.heuristic))
-
-    def __le__(self, other):
-        return ((self.heuristic) <= (other.heuristic))
-
-    def __gt__(self, other):
-        return ((self.heuristic) > (other.heuristic))
-
-    def __ge__(self, other):
-        return ((self.heuristic) >= (other.heuristic))
-"""
 
 #def createNode(key,fState):
 #    return Node(key, fState) 
@@ -101,7 +79,8 @@ def printTree(root):
             counter += 1
 #end print
 
-  
+#testing
+"""
 root = None
 root = insert(root, 9 , copy.deepcopy(treeBoard))
 insert(root, 6 , copy.deepcopy(treeBoard))
@@ -113,6 +92,7 @@ printTree(root)
 
 print()
 print()
+"""
 #print(maxHeuristic(root).heuristic)
 #board.printBoard(maxHeuristic(root).state)
 #print(minHeuristic(root).heuristic)
