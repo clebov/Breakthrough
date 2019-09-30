@@ -30,9 +30,9 @@ treeBoard = [[blankSpace for i in range(col)]for j in range(row)]
 
 class Node(object):
     def __init__(self, key, fState):
-        self.nextTurns = []
         self.heuristic = key
         self.state = fState
+        self.nextTurns = []
 
 
 #def createNode(key,fState):
@@ -64,19 +64,21 @@ def insert(root, key, fState):
         #sorted(root.nextTurns, key = getNodeKey)    
         
 #prints the binary tree in order form when tehe data was entered
+#global counter to keep track of nodes
+counter = 0
 def printTree(root): 
+    global counter
     if root:
-        counter = 0
         #then print the data of node 
         print(counter)
         print(root.heuristic)
         board.printBoard(root.state)
         counter += 1
+        #if len(root.nextTurns) > 0:
+        #debugging
+        #print("Hello from printTree recurssion!")
         for i in range(len(root.nextTurns)):
-            print(counter)
-            print(root.nextTurns[i].heuristic)
-            board.printBoard(root.nextTurns[i].state)
-            counter += 1
+            printTree(root.nextTurns[i]) 
 #end print
 
 #testing

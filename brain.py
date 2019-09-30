@@ -13,6 +13,9 @@ import board
 row = board.row
 col = board.col
 
+#set the layer depth at which search trees will be made
+searchDepth = 3
+
 
 
 #method to create and return a list of game possible states
@@ -21,39 +24,57 @@ col = board.col
 #   a "state" is a copy of a board
 #   in MAIN a board should not be passed into this function, but should be 
 #       appended to an empty list first
-def getPossibleStates(fCurrentState, fCurrentTurn):
+def getPossibleStates(fCurrentState, fCurrentTurn, fDepth):
+
+    #debugging:
+    #print("DEBUGGING: GETPOSSIBLESTATES: FINDME: DEPTH: " + str(fDepth)) 
 
     #define tree to be returned at end of function
-    newStates = None
-    newStates = tree.insert(newStates, 0, copy.deepcopy(fCurrentState[0]))
+    newStates = []
+    #newStates = tree.insert(newStates, 0, copy.deepcopy(fCurrentState))
 
     #char list of possible moves, left, forward, right, for looping. 
     moves = {'L', 'F', 'R'}
 
     #get current player
-    playerToken = None
+    playerToken = ''
     if fCurrentTurn % 2 == 0:       #white
-        playerToken == board.whiteToken
+        #print("It is now White's turn") #debugging
+        playerToken = board.whiteToken
+        #print(board.whiteToken)
+        #print(playerToken)
     elif fCurrentTurn % 2 == 1:     #black
-        playerToken == board.blackToken
+        #print("It is now Black's turn") #debugging
+        playerToken = board.blackToken
 
     #for each possible move from current states
-    for a in range(len(fCurrentState)):
-        for i in range(row):
-            for j in range(col):
-                #print("Checking moves from:\n")
-                #board.printBoard(fCurrentStates[a])
+    #for a in range(len(fCurrentState)):
+    for i in range(row):
+        for j in range(col):
+            #print("Checking moves from:\n")
+            #board.printBoard(fCurrentStates[a])
+            if fCurrentState.state[i][j] == playerToken: 
+                #print("FINDME: GETSTATES: IFPLAYERTOKENFOUND") #debugging
                 for move in moves:
                     #tempState.append(copy.deepcopy(pState[a]))
                     #[tempIndexCounter]
-                    tempState = copy.deepcopy(fCurrentState[a])
+                    tempState = copy.deepcopy(fCurrentState.state)
                     if(board.makeMove(tempState, int(i), int(j), move)):
-                        print("Valid move found: ")
-                        board.printBoard(tempState)
+                        print("thinking...")
+                        #print("Valid move found: ")
+                        #board.printBoard(tempState)
                         #add node to tree
-                        tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
+                        #tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
+                        newStates.append(tree.Node(getHeuristic(tempState), copy.deepcopy(tempState))) 
 
-    #end for a, i, j
+    #end for i, j
+    global searchDepth
+    #print("Hello, checking depth 01:" + str(fDepth) + " " + str(searchDepth))
+    if fDepth < searchDepth:
+        for b in range(len(newStates)):
+            newStates[b].nextTurns = getPossibleStates(newStates[b], fCurrentTurn+1, fDepth+1)
+        #debugging
+    #    print("Hello, checking depth 02")
 
     #print("\n\n\n\n\n\n\n\n\n\n\n\n\n#############################")
     #Tree.inorder(newStates) 
@@ -76,6 +97,6 @@ def getHeuristic(fState):
             if fState[i][j] == board.whiteToken:
                 h += 1
     
-    print("getHeuristic: heuristic returned: " + str(h) + ".\n")
+    #print("getHeuristic: heuristic returned: " + str(h) + ".\n")
     return h 
 #end getHeuristic

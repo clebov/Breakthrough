@@ -9,18 +9,24 @@ test1 = board.createBoard()
 board.setStartingPieces(test1)
 board.printBoard(test1)
 
-currentState = []
-currentState.append(test1)
+currentState = tree.Node(0, test1)
+#currentState.append(test1)
 
-nextStates = brain.getPossibleStates(currentState, 0)
+currentState.nextTurns = brain.getPossibleStates(currentState, 0, 0)
+
+#for i in range(len(currentState.nextTurns)):
+#    currentState.nextTurns[i].nextTurns = brain.getPossibleStates(currentState.nextTurns[i], 1, 0)
+
 
 print("\n################### Printing Next States Tree ###################\n")
-tree.printTree(nextStates)
+tree.printTree(currentState)
+#for i in range(len(currentState.nextTurns)):
+#    tree.printTree(currentState.nextTurns[1]) 
 
-
+"""
 print("__________")
-board.printBoard(currentState[0])
-board.printBoard(test1)
+#board.printBoard(currentState[0])
+#board.printBoard(test1)
 
 
 
@@ -38,7 +44,7 @@ board.placePiece(progressedBoard, 2, 0, board.blackToken)
 
 brain.getHeuristic(progressedBoard)
 board.printBoard(progressedBoard)
-
+"""
 #print(test1)
 
 #for eachState in currentState:
