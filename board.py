@@ -4,8 +4,8 @@
 
 
 #size of board, number of squares on each side and 
-row = 8
-col = 8
+row = 6
+col = 6
 
 #character token to represent an empty space on the board
 blankSpace = '[]'
@@ -13,7 +13,8 @@ blankSpace = '[]'
 blackToken = 'BB'
 whiteToken = 'WW'
 
-
+#char list of possible moves, left, forward, right, for looping. 
+moves = {'L', 'F', 'R'}
 
 #initialize the board with [] to represent squares
 def createBoard():

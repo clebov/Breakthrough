@@ -14,70 +14,53 @@ row = board.row
 col = board.col
 
 #set the layer depth at which search trees will be made
-searchDepth = 3
+#   default to 3, more layers are possible but dramatically increase processing time
+searchDepth = 2
 
 
 
 #method to create and return a list of game possible states
-#   returns a binary search tree of possible game states
-#   accessible from a parameterized list of current game states
-#   a "state" is a copy of a board
-#   in MAIN a board should not be passed into this function, but should be 
-#       appended to an empty list first
+#   accessible from a parameterized node of the current game state
+#   in Main a node must be constructed with heuristic (key) of 0 and 
+#       the current game state to be passed into fCurrentState
+#   in Main fDepth should always be passed in as 1, since 
+#       the current state is layer 0 and the possible states start at layer 1
 def getPossibleStates(fCurrentState, fCurrentTurn, fDepth):
-
-    #debugging:
-    #print("DEBUGGING: GETPOSSIBLESTATES: FINDME: DEPTH: " + str(fDepth)) 
 
     #define tree to be returned at end of function
     newStates = []
-    #newStates = tree.insert(newStates, 0, copy.deepcopy(fCurrentState))
-
-    #char list of possible moves, left, forward, right, for looping. 
-    moves = {'L', 'F', 'R'}
 
     #get current player
     playerToken = ''
     if fCurrentTurn % 2 == 0:       #white
-        #print("It is now White's turn") #debugging
         playerToken = board.whiteToken
-        #print(board.whiteToken)
-        #print(playerToken)
     elif fCurrentTurn % 2 == 1:     #black
-        #print("It is now Black's turn") #debugging
         playerToken = board.blackToken
 
     #for each possible move from current states
-    #for a in range(len(fCurrentState)):
     for i in range(row):
+        #debugging, this loop takes a long time to complete so this is to know it's in progress
+        print("thinking...")
         for j in range(col):
-            #print("Checking moves from:\n")
-            #board.printBoard(fCurrentStates[a])
+            #if a space contains a piece of the current player
             if fCurrentState.state[i][j] == playerToken: 
-                #print("FINDME: GETSTATES: IFPLAYERTOKENFOUND") #debugging
-                for move in moves:
-                    #tempState.append(copy.deepcopy(pState[a]))
-                    #[tempIndexCounter]
+                #check all valid moves that player can make from the current state
+                for move in board.moves:
                     tempState = copy.deepcopy(fCurrentState.state)
                     if(board.makeMove(tempState, int(i), int(j), move)):
-                        print("thinking...")
-                        #print("Valid move found: ")
-                        #board.printBoard(tempState)
-                        #add node to tree
-                        #tree.insert(newStates, getHeuristic(tempState), copy.deepcopy(tempState))
+                        #if a valid move can be made, add that move to the list of possible next turns
                         newStates.append(tree.Node(getHeuristic(tempState), copy.deepcopy(tempState))) 
 
     #end for i, j
+
+    #recurse to the appropriate depth
     global searchDepth
-    #print("Hello, checking depth 01:" + str(fDepth) + " " + str(searchDepth))
     if fDepth < searchDepth:
         for b in range(len(newStates)):
             newStates[b].nextTurns = getPossibleStates(newStates[b], fCurrentTurn+1, fDepth+1)
-        #debugging
-    #    print("Hello, checking depth 02")
-
-    #print("\n\n\n\n\n\n\n\n\n\n\n\n\n#############################")
-    #Tree.inorder(newStates) 
+    
+    #return the list of possible states to the appropriate depth back to 
+    #   the nextTurns value of the fCurrentState node.
     return newStates 
 
 #end getPossibleStates
@@ -89,9 +72,10 @@ def getPossibleStates(fCurrentState, fCurrentTurn, fDepth):
 #   the black player if playing offensivley will search for a lower heuristic
 #   a random float >=0 but <1 is added to break ties.
 def getHeuristic(fState):
+    #add randomnes to break ties
     h = random.random()
 
-    #for a in range(len(fState)):
+    #add the number of white tokens 
     for i in range(row):
         for j in range(col):
             if fState[i][j] == board.whiteToken:
@@ -100,3 +84,24 @@ def getHeuristic(fState):
     #print("getHeuristic: heuristic returned: " + str(h) + ".\n")
     return h 
 #end getHeuristic
+
+
+#minimax
+def minimax(fNode, fTurn, fDepth):
+    #all trees should be built to global searchDepth variable
+    #   so we know at that depth is the terminal nodes
+    global searchDepth
+
+    if fDepth == searchDepth-1:
+        #if white player (even turns), use max heuristic
+        if fTurn % 2 == 0:
+            fNode.heuristic = tree.maxHeuristic(fNode)
+        #if black player (odd turns), use min heuristic
+        elif fTurn % 2 == 1:
+            fNode.heuristic = tree.minHeuristic(fNode)
+    else:
+        for i in range(len(fNode.nextTurns)):
+            minimax(fNode.nextTurns[i], fTurn+1, fDepth+1)
+    
+
+            

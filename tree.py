@@ -10,6 +10,7 @@
 
 import board
 import copy
+import math
 
 row = board.row
 col = board.col
@@ -29,8 +30,8 @@ treeBoard = [[blankSpace for i in range(col)]for j in range(row)]
 #rewrite min max and inorder to search next turns to find the specific value
 
 class Node(object):
-    def __init__(self, key, fState):
-        self.heuristic = key
+    def __init__(self, fKey, fState):
+        self.heuristic = fKey
         self.state = fState
         self.nextTurns = []
 
@@ -41,19 +42,19 @@ class Node(object):
 def getNodeKey(thisNode):
     return thisNode.heuristic
 
-def maxHeuristic(root): 
-      
-    if root.right == None:
-        return root
-    else:
-        return minHeuristic(root.right)
+def maxHeuristic(fNode): 
+    max = (0-math.inf)
+    for i in range(len(fNode.nextTurns)):
+        if fNode.nextTurns[i].heuristic >= max:
+            max = fNode.nextTurns[i].heuristic
+
 
 #find the Heuristic with the lowest value
-def minHeuristic(root):
-    if root.left == None:
-        return root
-    else:
-        return minHeuristic(root.left)
+def minHeuristic(fNode): 
+    min = math.inf
+    for i in range(len(fNode.nextTurns)):
+        if fNode.nextTurns[i].heuristic <= min:
+            min = fNode.nextTurns[i].heuristic
 
 ##### recursive function to add new node to the tree
 def insert(root, key, fState): 
