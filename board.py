@@ -4,8 +4,8 @@
 
 
 #size of board, number of squares on each side and 
-row = 8
-col = 8
+row = 5
+col = 5
 
 #character token to represent an empty space on the board
 blankSpace = '[]'

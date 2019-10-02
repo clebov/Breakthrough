@@ -15,7 +15,7 @@ col = board.col
 
 #set the layer depth at which search trees will be made
 #   default to 3, more layers are possible but dramatically increase processing time
-searchDepth = 2
+searchDepth = 3
 
 
 
@@ -92,9 +92,9 @@ def minimax(fNode, fTurn, fDepth):
     #   so we know at that depth is the terminal nodes
     global searchDepth
 
-    if fDepth < searchDepth:
+    if fDepth < searchDepth-1:
         d = 1
-        while (d <= searchDepth):
+        while (d <= searchDepth-1):
             for i in range(len(fNode.nextTurns)):
                 minimax(fNode.nextTurns[i], fTurn+d, fDepth+d)
             d+=1
