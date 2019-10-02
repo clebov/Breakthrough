@@ -55,7 +55,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn, fDepth):
 
     #recurse to the appropriate depth
     global searchDepth
-    if fDepth < searchDepth:
+    if fDepth < searchDepth-1:
         for b in range(len(newStates)):
             newStates[b].nextTurns = getPossibleStates(newStates[b], fCurrentTurn+1, fDepth+1)
     
