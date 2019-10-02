@@ -4,8 +4,8 @@
 
 
 #size of board, number of squares on each side and 
-row = 6
-col = 6
+row = 8
+col = 8
 
 #character token to represent an empty space on the board
 blankSpace = '[]'
@@ -32,6 +32,15 @@ def printBoard(fBoard):
     print("\n")
 #end printBoard
 
+
+#write the board to a text file
+def writeBoard(fBoard, fFile):
+    for i in range(row):
+        for j in range(col):
+            fFile.write(fBoard[i][j]+" ") 
+        fFile.write("\n")
+    fFile.write("\n")
+#end writeBoard
 
 
 #place one piece on the board
@@ -187,3 +196,12 @@ def makeMove(fBoard, oldRow, oldCol, move):
 
 #end makeMove
 
+
+#check for win condition and return
+def endGame(fBoard):
+    win = false
+    for i in range(col):
+        if (fBoard[0][i] == whiteToken) or (fBoard[row][i] == blackToken):
+            win = true
+    return win
+#end endGame

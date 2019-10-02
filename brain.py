@@ -40,7 +40,7 @@ def getPossibleStates(fCurrentState, fCurrentTurn, fDepth):
     #for each possible move from current states
     for i in range(row):
         #debugging, this loop takes a long time to complete so this is to know it's in progress
-        print("thinking...")
+        #print("thinking...")
         for j in range(col):
             #if a space contains a piece of the current player
             if fCurrentState.state[i][j] == playerToken: 
@@ -92,16 +92,26 @@ def minimax(fNode, fTurn, fDepth):
     #   so we know at that depth is the terminal nodes
     global searchDepth
 
-    if fDepth == searchDepth-1:
+    if fDepth < searchDepth:
+        d = 1
+        while (d <= searchDepth):
+            for i in range(len(fNode.nextTurns)):
+                minimax(fNode.nextTurns[i], fTurn+d, fDepth+d)
+            d+=1
+    else:
         #if white player (even turns), use max heuristic
         if fTurn % 2 == 0:
             fNode.heuristic = tree.maxHeuristic(fNode)
         #if black player (odd turns), use min heuristic
         elif fTurn % 2 == 1:
             fNode.heuristic = tree.minHeuristic(fNode)
-    else:
-        for i in range(len(fNode.nextTurns)):
-            minimax(fNode.nextTurns[i], fTurn+1, fDepth+1)
-    
+
+    #if white player (even turns), use max heuristic
+    if fTurn % 2 == 0:
+        fNode.heuristic = tree.maxHeuristic(fNode)
+    #if black player (odd turns), use min heuristic
+    elif fTurn % 2 == 1:
+        fNode.heuristic = tree.minHeuristic(fNode)
+#end minimax
 
             

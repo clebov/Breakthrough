@@ -10,11 +10,11 @@ board.setStartingPieces(test1)
 board.printBoard(test1)
 
 currentState = tree.Node(0, test1)
-currentState.nextTurns = brain.getPossibleStates(currentState, 0, 1)
+currentState.nextTurns = brain.getPossibleStates(currentState, 0, 0)
 
 print("\n################### Printing Next States Tree ###################\n")
-brain.minimax(currentState, 0, 1)
-tree.printTree(currentState)
+brain.minimax(currentState, 0, 0)
+tree.writeTree(currentState)
 
 
 

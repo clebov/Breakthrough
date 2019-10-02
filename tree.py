@@ -33,20 +33,22 @@ class Node(object):
     def __init__(self, fKey, fState):
         self.heuristic = fKey
         self.state = fState
-        self.nextTurns = []
+        self.nextTurns = []     #list of nodes
 
 
 #def createNode(key,fState):
 #    return Node(key, fState) 
 
-def getNodeKey(thisNode):
-    return thisNode.heuristic
+#def getNodeKey(thisNode):
+#    return thisNode.heuristic
+
 
 def maxHeuristic(fNode): 
     max = (0-math.inf)
     for i in range(len(fNode.nextTurns)):
         if fNode.nextTurns[i].heuristic >= max:
             max = fNode.nextTurns[i].heuristic
+    return max
 
 
 #find the Heuristic with the lowest value
@@ -55,6 +57,7 @@ def minHeuristic(fNode):
     for i in range(len(fNode.nextTurns)):
         if fNode.nextTurns[i].heuristic <= min:
             min = fNode.nextTurns[i].heuristic
+    return min
 
 ##### recursive function to add new node to the tree
 def insert(root, key, fState): 
@@ -69,17 +72,134 @@ def insert(root, key, fState):
 counter = 0
 def printTree(root): 
     global counter
+    depthCounter = 0
+
     if root:
         #then print the data of node 
-        print(counter)
-        print(root.heuristic)
+        print("Layer: " + str(depthCounter))
+        print("Node: " + str(counter))
+        print("Heuristic: " + str(root.heuristic))
         board.printBoard(root.state)
         counter += 1
-        #if len(root.nextTurns) > 0:
-        #debugging
-        #print("Hello from printTree recurssion!")
+        depthCounter += 1
+        
         for i in range(len(root.nextTurns)):
-            printTree(root.nextTurns[i]) 
+            print("Layer: " + str(depthCounter))
+            print("Node: " + str(counter))
+            print("Heuristic: " + str(root.nextTurns[i].heuristic))
+            board.printBoard(root.nextTurns[i].state)
+            counter += 1
+
+        depthCounter += 1
+
+        for j in range(len(root.nextTurns)):
+            for k in range(len(root.nextTurns[j].nextTurns)):
+                print("Layer: " + str(depthCounter))
+                print("Node: " + str(counter))
+                print("Heuristic: " + str(root.nextTurns[j].nextTurns[k].heuristic))
+                board.printBoard(root.nextTurns[j].nextTurns[k].state)
+                counter += 1
+
+        depthCounter += 1
+
+        for l in range(len(root.nextTurns)):
+            for m in range(len(root.nextTurns[l].nextTurns)):
+                for n in range(len(root.nextTurns[l].nextTurns[m].nextTurns)):
+                    print("Layer: " + str(depthCounter))
+                    print("Node: " + str(counter))
+                    print("Heuristic: " + str(root.nextTurns[l].nextTurns[m].nextTurns[n].heuristic))
+                    board.printBoard(root.nextTurns[l].nextTurns[m].nextTurns[n].state)
+                    counter += 1
+#end print
+
+
+
+def printOneBranch(root):
+    global counter
+    depthCounter = 0
+
+    if root:
+        #then print the data of node 
+        print("Layer: " + str(depthCounter))
+        print("Node: " + str(counter))
+        print("Heuristic: " + str(root.heuristic))
+        board.printBoard(root.state)
+        counter += 1
+        depthCounter += 1
+        
+        for i in range(len(root.nextTurns)):
+            print("Layer: " + str(depthCounter))
+            print("Node: " + str(counter))
+            print("Heuristic: " + str(root.nextTurns[i].heuristic))
+            board.printBoard(root.nextTurns[i].state)
+            counter += 1
+
+        depthCounter += 1
+
+        for j in range(len(root.nextTurns[0].nextTurns)):
+            print("Layer: " + str(depthCounter))
+            print("Node: " + str(counter))
+            print("Heuristic: " + str(root.nextTurns[0].nextTurns[j].heuristic))
+            board.printBoard(root.nextTurns[0].nextTurns[j].state)
+            counter += 1
+
+        depthCounter += 1
+
+
+        for n in range(len(root.nextTurns[0].nextTurns[0].nextTurns)):
+            print("Layer: " + str(depthCounter))
+            print("Node: " + str(counter))
+            print("Heuristic: " + str(root.nextTurns[0].nextTurns[0].nextTurns[n].heuristic))
+            board.printBoard(root.nextTurns[0].nextTurns[0].nextTurns[n].state)
+            counter += 1
+#end printone branch
+
+
+def writeTree(root): 
+    global counter
+    depthCounter = 0
+
+    #open file
+    file = open("tree.txt", "w+")
+
+
+
+    if root:
+        #then print the data of node 
+        file.write("Layer: " + str(depthCounter)+"\n")
+        file.write("Node: " + str(counter)+"\n")
+        file.write("Heuristic: " + str(root.heuristic)+"\n")
+        board.writeBoard(root.state, file)
+        counter += 1
+        depthCounter += 1
+        
+        for i in range(len(root.nextTurns)):
+            file.write("Layer: " + str(depthCounter)+"\n")
+            file.write("Node: " + str(counter)+"\n")
+            file.write("Heuristic: " + str(root.nextTurns[i].heuristic)+"\n")
+            board.writeBoard(root.nextTurns[i].state, file)
+            counter += 1
+
+        depthCounter += 1
+
+        for j in range(len(root.nextTurns)):
+            for k in range(len(root.nextTurns[j].nextTurns)):
+                file.write("Layer: " + str(depthCounter)+"\n")
+                file.write("Node: " + str(counter)+"\n")
+                file.write("Heuristic: " + str(root.nextTurns[j].nextTurns[k].heuristic)+"\n")
+                board.writeBoard(root.nextTurns[j].nextTurns[k].state, file)
+                counter += 1
+
+        depthCounter += 1
+
+        for l in range(len(root.nextTurns)):
+            for m in range(len(root.nextTurns[l].nextTurns)):
+                for n in range(len(root.nextTurns[l].nextTurns[m].nextTurns)):
+                    file.write("Layer: " + str(depthCounter)+"\n")
+                    file.write("Node: " + str(counter)+"\n")
+                    file.write("Heuristic: " + str(root.nextTurns[l].nextTurns[m].nextTurns[n].heuristic)+"\n")
+                    board.writeBoard(root.nextTurns[l].nextTurns[m].nextTurns[n].state, file)
+                    counter += 1
 #end print
 
 #testing
