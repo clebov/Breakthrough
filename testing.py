@@ -19,9 +19,14 @@ tree.writeTree(currentState)
 
 
 
-
-
-
+"""
+##### testing 10/02/2019
+class player(object):
+  def __init__(self, token, turn, strategy):
+    self.token=token
+    self.turn= turn
+    self.strategy= strategy
+"""
 
 """
 print("__________")

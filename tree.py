@@ -46,7 +46,7 @@ class Node(object):
 def maxHeuristic(fNode): 
     max = (0-math.inf)
     for i in range(len(fNode.nextTurns)):
-        if fNode.nextTurns[i].heuristic >= max:
+        if fNode.nextTurns[i].heuristic > max:
             max = fNode.nextTurns[i].heuristic
     return max
 
@@ -55,7 +55,7 @@ def maxHeuristic(fNode):
 def minHeuristic(fNode): 
     min = math.inf
     for i in range(len(fNode.nextTurns)):
-        if fNode.nextTurns[i].heuristic <= min:
+        if fNode.nextTurns[i].heuristic < min:
             min = fNode.nextTurns[i].heuristic
     return min
 

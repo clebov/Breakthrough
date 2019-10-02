@@ -199,9 +199,9 @@ def makeMove(fBoard, oldRow, oldCol, move):
 
 #check for win condition and return
 def endGame(fBoard):
-    win = false
+    win = False
     for i in range(col):
-        if (fBoard[0][i] == whiteToken) or (fBoard[row][i] == blackToken):
-            win = true
+        if (fBoard[0][i] == whiteToken) or (fBoard[row-1][i] == blackToken):
+            win = True
     return win
 #end endGame
