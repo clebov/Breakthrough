@@ -69,36 +69,36 @@ def insert(root, key, fState):
         
 #prints the binary tree in order form when tehe data was entered
 #global counter to keep track of nodes
-counter = 0
+nodeCounter = 0
 def printTree(root): 
-    global counter
+    global nodeCounter
     depthCounter = 0
 
     if root:
         #then print the data of node 
         print("Layer: " + str(depthCounter))
-        print("Node: " + str(counter))
+        print("Node: " + str(nodeCounter))
         print("Heuristic: " + str(root.heuristic))
         board.printBoard(root.state)
-        counter += 1
+        nodeCounter += 1
         depthCounter += 1
         
         for i in range(len(root.nextTurns)):
             print("Layer: " + str(depthCounter))
-            print("Node: " + str(counter))
+            print("Node: " + str(nodeCounter))
             print("Heuristic: " + str(root.nextTurns[i].heuristic))
             board.printBoard(root.nextTurns[i].state)
-            counter += 1
+            nodeCounter += 1
 
         depthCounter += 1
 
         for j in range(len(root.nextTurns)):
             for k in range(len(root.nextTurns[j].nextTurns)):
                 print("Layer: " + str(depthCounter))
-                print("Node: " + str(counter))
+                print("Node: " + str(nodeCounter))
                 print("Heuristic: " + str(root.nextTurns[j].nextTurns[k].heuristic))
                 board.printBoard(root.nextTurns[j].nextTurns[k].state)
-                counter += 1
+                nodeCounter += 1
 
         depthCounter += 1
 
@@ -106,57 +106,58 @@ def printTree(root):
             for m in range(len(root.nextTurns[l].nextTurns)):
                 for n in range(len(root.nextTurns[l].nextTurns[m].nextTurns)):
                     print("Layer: " + str(depthCounter))
-                    print("Node: " + str(counter))
+                    print("Node: " + str(nodeCounter))
                     print("Heuristic: " + str(root.nextTurns[l].nextTurns[m].nextTurns[n].heuristic))
                     board.printBoard(root.nextTurns[l].nextTurns[m].nextTurns[n].state)
-                    counter += 1
+                    nodeCounter += 1
+    nodeCounter = 0
 #end print
 
 
 
 def printOneBranch(root):
-    global counter
+    global nodeCounter
     depthCounter = 0
 
     if root:
         #then print the data of node 
         print("Layer: " + str(depthCounter))
-        print("Node: " + str(counter))
+        print("Node: " + str(nodeCounter))
         print("Heuristic: " + str(root.heuristic))
         board.printBoard(root.state)
-        counter += 1
+        nodeCounter += 1
         depthCounter += 1
         
         for i in range(len(root.nextTurns)):
             print("Layer: " + str(depthCounter))
-            print("Node: " + str(counter))
+            print("Node: " + str(nodeCounter))
             print("Heuristic: " + str(root.nextTurns[i].heuristic))
             board.printBoard(root.nextTurns[i].state)
-            counter += 1
+            nodeCounter += 1
 
         depthCounter += 1
 
         for j in range(len(root.nextTurns[0].nextTurns)):
             print("Layer: " + str(depthCounter))
-            print("Node: " + str(counter))
+            print("Node: " + str(nodeCounter))
             print("Heuristic: " + str(root.nextTurns[0].nextTurns[j].heuristic))
             board.printBoard(root.nextTurns[0].nextTurns[j].state)
-            counter += 1
+            nodeCounter += 1
 
         depthCounter += 1
 
 
         for n in range(len(root.nextTurns[0].nextTurns[0].nextTurns)):
             print("Layer: " + str(depthCounter))
-            print("Node: " + str(counter))
+            print("Node: " + str(nodeCounter))
             print("Heuristic: " + str(root.nextTurns[0].nextTurns[0].nextTurns[n].heuristic))
             board.printBoard(root.nextTurns[0].nextTurns[0].nextTurns[n].state)
-            counter += 1
+            nodeCounter += 1
 #end printone branch
 
 
 def writeTree(root): 
-    global counter
+    global nodeCounter
     depthCounter = 0
 
     #open file
@@ -167,28 +168,28 @@ def writeTree(root):
     if root:
         #then print the data of node 
         file.write("Layer: " + str(depthCounter)+"\n")
-        file.write("Node: " + str(counter)+"\n")
+        file.write("Node: " + str(nodeCounter)+"\n")
         file.write("Heuristic: " + str(root.heuristic)+"\n")
         board.writeBoard(root.state, file)
-        counter += 1
+        nodeCounter += 1
         depthCounter += 1
         
         for i in range(len(root.nextTurns)):
             file.write("Layer: " + str(depthCounter)+"\n")
-            file.write("Node: " + str(counter)+"\n")
+            file.write("Node: " + str(nodeCounter)+"\n")
             file.write("Heuristic: " + str(root.nextTurns[i].heuristic)+"\n")
             board.writeBoard(root.nextTurns[i].state, file)
-            counter += 1
+            nodeCounter += 1
 
         depthCounter += 1
 
         for j in range(len(root.nextTurns)):
             for k in range(len(root.nextTurns[j].nextTurns)):
                 file.write("Layer: " + str(depthCounter)+"\n")
-                file.write("Node: " + str(counter)+"\n")
+                file.write("Node: " + str(nodeCounter)+"\n")
                 file.write("Heuristic: " + str(root.nextTurns[j].nextTurns[k].heuristic)+"\n")
                 board.writeBoard(root.nextTurns[j].nextTurns[k].state, file)
-                counter += 1
+                nodeCounter += 1
 
         depthCounter += 1
 
@@ -196,10 +197,10 @@ def writeTree(root):
             for m in range(len(root.nextTurns[l].nextTurns)):
                 for n in range(len(root.nextTurns[l].nextTurns[m].nextTurns)):
                     file.write("Layer: " + str(depthCounter)+"\n")
-                    file.write("Node: " + str(counter)+"\n")
+                    file.write("Node: " + str(nodeCounter)+"\n")
                     file.write("Heuristic: " + str(root.nextTurns[l].nextTurns[m].nextTurns[n].heuristic)+"\n")
                     board.writeBoard(root.nextTurns[l].nextTurns[m].nextTurns[n].state, file)
-                    counter += 1
+                    nodeCounter += 1
 #end print
 
 #testing

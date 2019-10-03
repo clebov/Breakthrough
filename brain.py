@@ -104,14 +104,14 @@ def minimax(fNode, fTurn, fDepth):
             fNode.heuristic = tree.maxHeuristic(fNode)
         #if black player (odd turns), use min heuristic
         elif fTurn % 2 == 1:
-            fNode.heuristic = tree.minHeuristic(fNode)
+            fNode.heuristic = tree.maxHeuristic(fNode)
 
     #if white player (even turns), use max heuristic
     if fTurn % 2 == 0:
         fNode.heuristic = tree.maxHeuristic(fNode)
     #if black player (odd turns), use min heuristic
     elif fTurn % 2 == 1:
-        fNode.heuristic = tree.minHeuristic(fNode)
+        fNode.heuristic = tree.maxHeuristic(fNode)
 #end minimax
 
             

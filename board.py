@@ -4,8 +4,8 @@
 
 
 #size of board, number of squares on each side and 
-row = 8
-col = 8
+row = 5
+col = 5
 
 #character token to represent an empty space on the board
 blankSpace = '[]'
@@ -23,6 +23,21 @@ def createBoard():
     return fBoard
 #end createBoard
 
+
+
+
+#create a board object
+class board(object):
+    def __init__(self, row, col, blank, moves):
+        self.row = row
+        self.col = col
+        self.blank = blank
+        self.moves = moves
+        self.field = [[blank for i in range(col)]for j in range(row)]
+
+    def print(self):
+        printBoard(self.field)
+#end board class
 
 
 #print the board
@@ -53,22 +68,26 @@ def placePiece(fBoard, row, col, fToken):
 
 #place the starting pieces on the board
 #   BB is a black piece and WW is a white piece
-def setStartingPieces(fBoard):
-    for i in range(col):
-        fBoard[0][i] = blackToken
-    for j in range(col):
-        fBoard[1][j] = blackToken
-    for k in range(col):
-        fBoard[row-1][k] = whiteToken
-    for l in range(col):
-        fBoard[row-2][l] = whiteToken
+def setStartingPieces(fPlayer):
+    #if first player
+    if fPlayer.turn == 0:
+        for i in range(fPlayer.board.col):
+            fPlayer.board.field[fPlayer.board.row-1][i] = fPlayer.token
+            fPlayer.board.field[fPlayer.board.row-2][i] = fPlayer.token
+    #if first player
+    elif fPlayer.turn == 1:
+        for i in range(fPlayer.board.col):
+            fPlayer.board.field[0][i] = fPlayer.token
+            fPlayer.board.field[1][i] = fPlayer.token
+    else:
+        print("Error: board.py: setStartingPieces: " +
+              "player has invalid turn order: "+str(fPlayer))
 #end setStartingPieces 
 
 
-
 #check if a location is on the board
-def isOnBoard(fRow, fCol):
-    if (fRow >= 0 and fRow < row and fCol >= 0 and fCol < col):
+def isOnBoard(fBoard, fRow, fCol):
+    if (fRow >= 0 and fRow < fBoard.row and fCol >= 0 and fCol < fBoard.col):
         return True
     else:
         return False
@@ -99,19 +118,19 @@ def movePiece(fBoard, oldRow, oldCol, newRow, newCol):
 #   move refers to a character, L, F, or R, to reference a left, forward, or right move
 #   left and right flip orientation depending on the player
 #       (black is at the top facing down, white is at the bottom facing up)
-def makeMove(fBoard, oldRow, oldCol, move):
+def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
     
     #check that valid space is being targeted
-    if (not(isOnBoard(oldRow, oldCol))):
+    if (not(isOnBoard(fPlayer.board, oldRow, oldCol))):
         #print("Error, makeMove: targeted space is not on the board.")
         return False
 
     #determine if a piece is being targeted and which player
-    fPlayer = -1
-    if fBoard[oldRow][oldCol] == blankSpace:
+    if fBoard[oldRow][oldCol] == fPlayer.board.blank:
         #print("Error, makeMove: please target a piece, not an empty space.\n")
         return False
     
+    """
     if fBoard[oldRow][oldCol] == whiteToken:
         fPlayer = 0
         #print("Player Number: " + str(fPlayer) + ".\n")
@@ -121,14 +140,15 @@ def makeMove(fBoard, oldRow, oldCol, move):
     else:
         #print("Error, makeMove: improper piece at (" + str(oldRow) + ", " + str(oldCol) + ").\n") 
         return False
+    """
 
     #determine vertical direction, up or down
     #   remember the list indeces for the vertical movement are reversed
     #       0 at top and 8 or row at bottom
     vert = 0
-    if fPlayer == 0:    #white
+    if fPlayer.turn == 0:    #white
         vert = -1
-    elif fPlayer == 1:  #black
+    elif fPlayer.turn == 1:  #black
         vert = 1
     else:
         #print("Error, makeMove: please enter valid player (0 or 1).\n")
@@ -151,10 +171,11 @@ def makeMove(fBoard, oldRow, oldCol, move):
     newCol = oldCol + horiz
 
     #determine if potential move is on board
-    if(not(isOnBoard(newRow, newCol))):
+    if(not(isOnBoard(fPlayer.board, newRow, newCol))):
         #print("Error, makeMove: candidate move goes off the board.\n")
         return False
-
+    
+    """
     #get token of players
     playerToken = ''
     enemyToken = ''
@@ -167,17 +188,18 @@ def makeMove(fBoard, oldRow, oldCol, move):
     else:
         #print("Error, makeMove: please enter valid player (0 or 1)\n")
         return False
-
+    """
+    
     #determine if potential move is blocked
     #blocked by a friendly piece
-    if(fBoard[newRow][newCol] == playerToken):
+    if(fBoard[newRow][newCol] == fPlayer.token):
         #print("Error, makeMove: cannot move into friendly piece " + playerToken + 
         #      " at (" + str(newRow) + ", " + str(newCol) + "): " +
         #      fBoard[newRow][newCol] + ".\n")
         return False
 
     #blocked by enemy piece in front of player
-    if(move == 'F' and (fBoard[newRow][newCol] != blankSpace)):
+    if(move == 'F' and (fBoard[newRow][newCol] != fPlayer.board.blank)):
         #print("Error, makeMove: cannot move directly forward into enemy piece " + 
         #      enemyToken + " at (" + str(newRow) + ", " + str(newCol) + ").\n")
         return False
@@ -190,8 +212,8 @@ def makeMove(fBoard, oldRow, oldCol, move):
     #print("makeMove: moving piece " + fBoard[oldRow][oldCol] + " from (" +
     #      str(oldRow) + ", " + str(oldCol) + ") to (" + 
     #      str(newRow) + ", " + str(newCol) + ").") 
-    fBoard[newRow][newCol] = playerToken
-    fBoard[oldRow][oldCol] = blankSpace
+    fBoard[newRow][newCol] = fPlayer.token
+    fBoard[oldRow][oldCol] = fPlayer.board.blank
     return True
 
 #end makeMove
