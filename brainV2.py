@@ -1,8 +1,10 @@
+
 import copy
 import board
 import player
 import tree
 searchDepth = 3
+
 
 def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
     #define tree to be returned at end of function
@@ -24,7 +26,7 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
                     tempState = copy.deepcopy(fState.state)
                     if(board.makeMove(tempState, fPlayer, int(i), int(j), move)):
                         #if a valid move can be made, add that move to the list of possible next turns
-                        newStates.append(tree.Node(player.highHeuristic(fPlayer), copy.deepcopy(tempState))) 
+                        newStates.append(tree.Node(player.weightedHighHeuristic(fPlayer, copy.deepcopy(tempState)), copy.deepcopy(tempState))) 
                         #board.printBoard(tempState)
     #end for i, j
 
@@ -42,13 +44,40 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
 #end getPossibleStates
 
 
+#minimax
+def minimax(fNode, fDepth):
+    #all trees should be built to global searchDepth variable
+    #   so we know at that depth is the terminal nodes
+    global searchDepth
+
+    if fDepth < searchDepth-1:
+        d = 1
+        while (d <= searchDepth-1):
+            for i in range(len(fNode.nextTurns)):
+                minimax(fNode.nextTurns[i], fDepth+d)
+            d+=1
+    else:
+        #if white player (even turns), use max heuristic
+        if fDepth % 2 == 0:
+            fNode.heuristic = tree.maxHeuristic(fNode)
+        #if black player (odd turns), use min heuristic
+        elif fDepth % 2 == 1:
+            fNode.heuristic = tree.minHeuristic(fNode)
+
+    #if white player (even turns), use max heuristic
+    if fDepth % 2 == 0:
+        fNode.heuristic = tree.maxHeuristic(fNode)
+    #if black player (odd turns), use min heuristic
+    elif fDepth % 2 == 1:
+        fNode.heuristic = tree.minHeuristic(fNode)
+#end minimax
 
 
 #check for win condition and return
 def endGame(fBoard, fPlayer):
     win = False
-    for i in range(fBoard.col):
-        if (fBoard.field[((fBoard.row-1)*fPlayer.turn)][i] == fPlayer.token):
+    for i in range(fPlayer.board.col):
+        if (fBoard[((fPlayer.board.row-1)*fPlayer.turn)][i] == fPlayer.token):
             win = True
     return win
 #end endGame

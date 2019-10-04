@@ -119,6 +119,7 @@ def movePiece(fBoard, oldRow, oldCol, newRow, newCol):
 #   left and right flip orientation depending on the player
 #       (black is at the top facing down, white is at the bottom facing up)
 def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
+    #TODO: CHRIS: Copy this function and rename the copy as makeMoveGUI([params])
     
     #check that valid space is being targeted
     if (not(isOnBoard(fPlayer.board, oldRow, oldCol))):

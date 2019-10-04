@@ -8,6 +8,7 @@
 
 import board
 import random
+import brainV2
 
 class player(object):
     def __init__(self, token, turn, heuristic, strategies, board):
@@ -37,9 +38,8 @@ class player(object):
         #player has an opponent, set in setOpponents
         self.opponent = None
     #end init
-
-
 #end player
+
 
 #print player
 def printPlayer(fPlayer):
@@ -58,31 +58,87 @@ def setOpponents(fPlayer01, fPlayer02):
 #end set opponents
 
 
+
 #high level heuristic
-def highHeuristic(fPlayer):
+def highHeuristic(fPlayer, fState):
     high = random.random()
     for strategy in fPlayer.strategies:
-        high += strategy(fPlayer)
-    #end for i
+        high += strategy(fPlayer, fState)
+    #end for strategies
     return high
 
 
+#weighted highHeuristic
+def weightedHighHeuristic(fPlayer, fState):
+    high = random.random()
+    numStrat = len(fPlayer.strategies)
+    i = 0.0
+    n = 0.0
+    for strategy in fPlayer.strategies:
+        n += strategy(fPlayer, fState)*((numStrat-i)/numStrat)
+        #print(n)
+        high += n/numStrat
+        i += 1.0
+    #end for strategies
+    #print("\n"+str(high)+"\n\n")
+    return high
+#end wighted high heuristic
 
-
-
-
-def offensiveHeuristic(fPlayer):
+#offensive heuristic
+#   gives higher score to a board state that has 
+#   fewer of the opponent's pieces
+def offensiveHeuristic(fPlayer, fState):
     #set to number of starting pieces on board for a player
     h = (fPlayer.board.col * 2)
     #print(h)
     #subtract for every opponent's piece on the board
     for i in range(fPlayer.board.row):
         for j in range(fPlayer.board.col):
-            if (fPlayer.board.field[i][j] == fPlayer.opponent.token):
+            if (fState[i][j] == fPlayer.opponent.token):
                 h -= fPlayer.heuristic
-                #print(fPlayer.board.field[i][j] + " " + str(h))
-                #print(h)
+
     #end for i, j
-    #print(str(h)+"\n")
     return h
 #end offensive heuristic
+
+
+#defensive heuristic
+#   gives higher score to a board state that has
+#   more of the player's pieces
+def defensiveHeuristic(fPlayer, fState):
+    h = 0
+    #count the number of player's pieces on board
+    for i in range(fPlayer.board.row):
+        for j in range(fPlayer.board.col):
+            if (fState[i][j] == fPlayer.token):
+                h += fPlayer.heuristic
+    
+    #end for i, j
+    return h
+#end defensive heuristic
+
+
+#aboutToWin heuristic
+#   gives higher score to board states where
+#   the player is one move away from winning
+def aboutToWin(fPlayer, fState):
+    h = 0
+    if brainV2.endGame(fState, fPlayer):
+        h += 5*fPlayer.heuristic
+    return h
+#end about to win
+
+
+#about to loose heuristic
+#   gives a lower score to board states where
+#   the player is about to lose
+def aboutToLose(fPlayer, fState):
+    h = 0
+    if brainV2.endGame(fState, fPlayer.opponent):
+        h -= 5*fPlayer.heuristic
+    return h
+#end about to lose
+
+
+def dummyHeuristic(fPlayer, fState):
+    return 3
