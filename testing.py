@@ -7,26 +7,16 @@ import tree
 
 print("\n################### Start testing.py ###################\n")
 
-test03 = board.board(4, 2, '_', {'L', 'F', 'R'})
+test05 = board.board(4, 2, '_', {'L', 'F', 'R'})
 
-player01 = player.player('W', 1, 1, {player.offensiveHeuristic}, test03)
-player02 = player.player('B', 0, 1, {player.offensiveHeuristic}, test03)
+player01 = player.player('W', 1, 1, {player.offensiveHeuristic}, test05)
+player02 = player.player('B', 0, 1, {player.offensiveHeuristic}, test05)
 player.setOpponents(player01, player02)
 board.setStartingPieces(player01)
 board.setStartingPieces(player02)
 
-
-board.printBoard(test03.field)
-print(player01)
-player.printPlayer(player01)
-print("\n\n" + str(player.highHeuristic(player01)))
-
-
-currentState = tree.Node(0, player01.board.field)
-currentState.nextTurns = brainV2.getPossibleStates(player02, currentState, 0, 0)
-brain.minimax(currentState, 0, 0)
-tree.printTree(currentState)
-
+player.runForward(player01, test05.field)
+player.runForward(player02, test05.field)
 
 
 
@@ -60,6 +50,32 @@ print("\n################### End testing.py ###################\n")
 
 
 """
+
+
+
+
+
+
+
+test03 = board.board(4, 2, '_', {'L', 'F', 'R'})
+
+player01 = player.player('W', 1, 1, {player.offensiveHeuristic}, test03)
+player02 = player.player('B', 0, 1, {player.offensiveHeuristic}, test03)
+player.setOpponents(player01, player02)
+board.setStartingPieces(player01)
+board.setStartingPieces(player02)
+
+
+board.printBoard(test03.field)
+print(player01)
+player.printPlayer(player01)
+print("\n\n" + str(player.highHeuristic(player01)))
+
+
+currentState = tree.Node(0, player01.board.field)
+currentState.nextTurns = brainV2.getPossibleStates(player02, currentState, 0, 0)
+brain.minimax(currentState, 0, 0)
+tree.printTree(currentState)
 test1 = board.createBoard()
 board.setStartingPieces(test1)
 board.printBoard(test1)
@@ -70,6 +86,12 @@ currentState.nextTurns = brain.getPossibleStates(currentState, 0, 0)
 print("\n################### Printing Next States Tree ###################\n")
 brain.minimax(currentState, 0, 0)
 tree.writeTree(currentState)
+
+
+
+
+
+
 
 ##### testing 10/02/2019
 class player(object):

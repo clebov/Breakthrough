@@ -68,11 +68,12 @@ def highHeuristic(fPlayer, fState):
     high = 0
     global randomTiebreakers
     if randomTiebreakers:
-        high += random.random()    
+        high += (random.random()/100)
     for strategy in fPlayer.strategies:
         high += strategy(fPlayer, fState)
     #end for strategies
     return high
+#end high level heuristic
 
 
 #weighted highHeuristic
@@ -80,7 +81,7 @@ def weightedHighHeuristic(fPlayer, fState):
     high = 0
     global randomTiebreakers
     if randomTiebreakers:
-        high += random.random()
+        high += (random.random()/100)
     numStrat = len(fPlayer.strategies)
     i = 0.0
     n = 0.0
@@ -93,6 +94,7 @@ def weightedHighHeuristic(fPlayer, fState):
     #print("\n"+str(high)+"\n\n")
     return high
 #end wighted high heuristic
+
 
 #offensive heuristic
 #   gives higher score to a board state that has 
@@ -108,7 +110,7 @@ def offensiveHeuristic(fPlayer, fState):
                 h -= fPlayer.heuristic
 
     #end for i, j
-    return h
+    return (h/(fPlayer.board.col * 2))
 #end offensive heuristic
 
 
@@ -124,7 +126,7 @@ def defensiveHeuristic(fPlayer, fState):
                 h += fPlayer.heuristic
     
     #end for i, j
-    return h
+    return (h/(fPlayer.board.col * 2))
 #end defensive heuristic
 
 
@@ -134,7 +136,7 @@ def defensiveHeuristic(fPlayer, fState):
 def aboutToWin(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer):
-        h += 10*fPlayer.heuristic
+        h += 1*fPlayer.heuristic
     return h
 #end about to win
 
@@ -145,11 +147,34 @@ def aboutToWin(fPlayer, fState):
 def aboutToLose(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer.opponent):
-        h -= 10*fPlayer.heuristic
+        h -= 1*fPlayer.heuristic
     return h
 #end about to lose
 
 
-def dummyHeuristic(fPlayer, fState):
-    return 3
+#offensive heuristic 2
+#   gives a higher score when the player has pieces closer to the end
+def runForward(fPlayer, fState):
+    h = fPlayer.board.row
 
+    direction = (2*fPlayer.turn)-1
+
+    end = ((fPlayer.board.row-1)*fPlayer.turn)
+    if(end == 0):
+        start = fPlayer.board.row
+    else:
+        start = 0
+
+    print(start)
+    print(end)
+    print(direction) 
+
+    while start != end:
+        for i in range(fPlayer.board.col):
+            if fState[start][i] == fPlayer.token:
+                 h += 1
+                 print(h)
+                 break
+        start += direction
+    
+        

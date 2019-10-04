@@ -56,4 +56,4 @@ def alphaBeta(fNode,fTurn,alpha,beta):
                 break
         fNode.heuristic = best
     end = timer()
-    print("The amout of time that AlphaBeta took:", timedelta(seconds = end - start))
+    #print("The amout of time that AlphaBeta took:", timedelta(seconds = end - start))
