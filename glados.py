@@ -1,6 +1,5 @@
 import board
 import player
-import brain
 import brainV2
 import tree
 import copy
