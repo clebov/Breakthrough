@@ -30,3 +30,4 @@ def minimax(fNode, fDepth):
     elif fDepth % 2 == 1:
         fNode.heuristic = tree.minHeuristic(fNode)
 #end minimax
+

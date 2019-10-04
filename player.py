@@ -142,3 +142,4 @@ def aboutToLose(fPlayer, fState):
 
 def dummyHeuristic(fPlayer, fState):
     return 3
+
