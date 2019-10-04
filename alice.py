@@ -6,10 +6,12 @@ import board
 import tree
 import brain
 import copy
-
+import math
 
 print("\n################### Start alice.py ###################\n")
 
+MAX = math.inf
+MIN = (0-math.inf)
 
 turnCounter = 0
 mainBoard = board.createBoard()
@@ -34,8 +36,8 @@ while(not(board.endGame(mainBoard))):
     #tree.printTree(currentState)
 
     currentState.nextTurns = brain.getPossibleStates(currentState, turnCounter, 0)
-    brain.minimax(currentState, turnCounter, 0)
-
+   # brain.minimax(currentState, turnCounter, 0)
+    brain.alphaBeta(currentState, turnCounter, 0, MIN, MAX)
     #print("tree after minimax:")
     #tree.printTree(currentState)
 
