@@ -26,7 +26,7 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
                     tempState = copy.deepcopy(fState.state)
                     if(board.makeMove(tempState, fPlayer, int(i), int(j), move)):
                         #if a valid move can be made, add that move to the list of possible next turns
-                        newStates.append(tree.Node(player.weightedHighHeuristic(fPlayer, copy.deepcopy(tempState)), copy.deepcopy(tempState))) 
+                        newStates.append(tree.Node(player.highHeuristic(fPlayer, copy.deepcopy(tempState)), copy.deepcopy(tempState))) 
                         #board.printBoard(tempState)
     #end for i, j
 

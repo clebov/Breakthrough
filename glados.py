@@ -13,18 +13,19 @@ from datetime import timedelta
 print("\n################### Start glados.py ###################\n")
 
 winCounter = [0, 0]
-printTurns = False
-numGames = 30
+printTurns = True
+numGames = 1
 setMinimax = False
+turnCap = math.inf
 
 for i in range(numGames):
 
     print("\n##### Start glados GAME #####\n")
     
-    mainBoard = board.board(6, 4, '[]', ['L', 'F', 'R'])
+    mainBoard = board.board(8, 8, '[]', ['L', 'F', 'R'])
 
-    player01 = player.player('WW', 0, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic], mainBoard)
-    player02 = player.player('BB', 1, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic], mainBoard)
+    player01 = player.player('WW', 0, 1, {player.runForward}, mainBoard)
+    player02 = player.player('BB', 1, 1, {player.runForward}, mainBoard)    
     player.setOpponents(player01, player02)
     board.setStartingPieces(player01)
     board.setStartingPieces(player02)
@@ -33,7 +34,7 @@ for i in range(numGames):
     currentPlayer = player01
     turnCounter = 0
 
-    while(not(brainV2.endGame(mainBoard.field, currentPlayer.opponent))):
+    while(not(brainV2.endGame(mainBoard.field, currentPlayer.opponent)) and turnCounter <= turnCap):
 
         #print("Current Player:" + str(currentPlayer))
         #print(".", end="")

@@ -79,18 +79,17 @@ def highHeuristic(fPlayer, fState):
 #weighted highHeuristic
 def weightedHighHeuristic(fPlayer, fState):
     high = 0
+
     global randomTiebreakers
     if randomTiebreakers:
         high += (random.random()/100)
-    numStrat = len(fPlayer.strategies)
+
     i = 0.0
-    n = 0.0
     for strategy in fPlayer.strategies:
-        n += strategy(fPlayer, fState)*((numStrat-i)/numStrat)
-        #print(n)
-        high += n/numStrat
+        high += strategy(fPlayer, fState)*(i*.9)
         i += 1.0
     #end for strategies
+
     #print("\n"+str(high)+"\n\n")
     return high
 #end wighted high heuristic
@@ -159,22 +158,33 @@ def runForward(fPlayer, fState):
 
     direction = (2*fPlayer.turn)-1
 
-    end = ((fPlayer.board.row-1)*fPlayer.turn)
-    if(end == 0):
-        start = fPlayer.board.row
+    endRow = ((fPlayer.board.row-1)*fPlayer.turn)
+    if(endRow == 0):
+        startRow = fPlayer.board.row-1
     else:
-        start = 0
+        startRow = 0
 
-    print(start)
-    print(end)
+    """
+    print(startRow)
+    print(endRow)
     print(direction) 
+    print()
+    """
 
-    while start != end:
+    foundPiece = False
+
+    while endRow != startRow:
         for i in range(fPlayer.board.col):
-            if fState[start][i] == fPlayer.token:
-                 h += 1
-                 print(h)
-                 break
-        start += direction
-    
-        
+            if fState[endRow][i] == fPlayer.token:
+                foundPiece = True
+                break
+        if foundPiece:
+            break
+        else:
+            h -= 1
+        endRow -= direction
+    #end while
+
+    return (h/fPlayer.board.row)
+
+#end run forward

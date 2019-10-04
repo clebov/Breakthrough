@@ -7,16 +7,23 @@ import tree
 
 print("\n################### Start testing.py ###################\n")
 
-test05 = board.board(4, 2, '_', {'L', 'F', 'R'})
+test05 = board.board(8, 8, '_', {'L', 'F', 'R'})
 
-player01 = player.player('W', 1, 1, {player.offensiveHeuristic}, test05)
-player02 = player.player('B', 0, 1, {player.offensiveHeuristic}, test05)
+player01 = player.player('W', 0, 1, {player.aboutToWin, player.offensiveHeuristic, player.runForward}, test05)
+player02 = player.player('B', 1, 1, {player.defensiveHeuristic, player.aboutToLose}, test05)
 player.setOpponents(player01, player02)
 board.setStartingPieces(player01)
 board.setStartingPieces(player02)
 
-player.runForward(player01, test05.field)
-player.runForward(player02, test05.field)
+board.placePiece(test05.field, 1, 4, player01.token)
+#board.placePiece(test05.field, 2, 3, board.whiteToken)
+#board.placePiece(test05.field, 2, 3, board.whiteToken)
+
+board.printBoard(test05.field)
+
+print(player.runForward(player01, test05.field))
+print()
+print(player.runForward(player02, test05.field))
 
 
 
