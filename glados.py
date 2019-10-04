@@ -3,21 +3,28 @@ import player
 import brainV2
 import tree
 import copy
+import math
+import AlphaBeta
+import minimax
+
+from timeit import default_timer as timer
+from datetime import timedelta
 
 print("\n################### Start glados.py ###################\n")
 
 winCounter = [0, 0]
 printTurns = True
 numGames = 1
+setMinimax = False
 
 for i in range(numGames):
 
     print("\n##### Start glados GAME #####\n")
+    
+    mainBoard = board.board(8, 8, '[]', ['L', 'F', 'R'])
 
-    mainBoard = board.board(6, 6, '[]', {'L', 'F', 'R'})
-
-    player01 = player.player('WW', 0, 1, {player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic}, mainBoard)
-    player02 = player.player('BB', 1, 1, {player.defensiveHeuristic, player.aboutToWin, player.aboutToLose, player.offensiveHeuristic}, mainBoard)
+    player01 = player.player('WW', 0, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic], mainBoard)
+    player02 = player.player('BB', 1, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic], mainBoard)
     player.setOpponents(player01, player02)
     board.setStartingPieces(player01)
     board.setStartingPieces(player02)
@@ -34,8 +41,19 @@ for i in range(numGames):
 
         currentState = tree.Node(0, copy.deepcopy(mainBoard.field))
         currentState.nextTurns = brainV2.getPossibleStates(currentPlayer, currentState, turnCounter, 0)
-        brainV2.minimax(currentState, 0)
-    
+
+        if setMinimax:
+            start = 0
+            end = 0
+            start=timer()
+            minimax.minimax(currentState, 0)
+            end = timer()
+            print("The amout of time that minimax took:", timedelta(seconds = end - start))
+
+        if not setMinimax:
+            AlphaBeta.alphaBeta(currentState, 0, (0-math.inf), (math.inf))
+        
+
         #debugging
         """
         if (turnCounter < 2):

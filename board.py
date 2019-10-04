@@ -14,7 +14,7 @@ blackToken = 'BB'
 whiteToken = 'WW'
 
 #char list of possible moves, left, forward, right, for looping. 
-moves = {'L', 'F', 'R'}
+moves = ['L', 'F', 'R']
 
 #initialize the board with [] to represent squares
 def createBoard():

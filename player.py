@@ -10,6 +10,11 @@ import board
 import random
 import brainV2
 
+
+#break ties between equivalent high heuristics using random number generation
+randomTiebreakers = True
+
+
 class player(object):
     def __init__(self, token, turn, heuristic, strategies, board):
         #token should be a two character string 
@@ -58,10 +63,12 @@ def setOpponents(fPlayer01, fPlayer02):
 #end set opponents
 
 
-
 #high level heuristic
 def highHeuristic(fPlayer, fState):
-    high = random.random()
+    high = 0
+    global randomTiebreakers
+    if randomTiebreakers:
+        high += random.random()    
     for strategy in fPlayer.strategies:
         high += strategy(fPlayer, fState)
     #end for strategies
@@ -70,7 +77,10 @@ def highHeuristic(fPlayer, fState):
 
 #weighted highHeuristic
 def weightedHighHeuristic(fPlayer, fState):
-    high = random.random()
+    high = 0
+    global randomTiebreakers
+    if randomTiebreakers:
+        high += random.random()
     numStrat = len(fPlayer.strategies)
     i = 0.0
     n = 0.0
@@ -124,7 +134,7 @@ def defensiveHeuristic(fPlayer, fState):
 def aboutToWin(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer):
-        h += 5*fPlayer.heuristic
+        h += 10*fPlayer.heuristic
     return h
 #end about to win
 
@@ -135,7 +145,7 @@ def aboutToWin(fPlayer, fState):
 def aboutToLose(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer.opponent):
-        h -= 5*fPlayer.heuristic
+        h -= 10*fPlayer.heuristic
     return h
 #end about to lose
 
