@@ -6,7 +6,8 @@ import copy
 import math
 import AlphaBeta
 import minimax
-
+import display
+import pygame
 from timeit import default_timer as timer
 from datetime import timedelta
 
@@ -14,14 +15,14 @@ print("\n################### Start glados.py ###################\n")
 
 winCounter = [0, 0]
 printTurns = False
-numGames = 30
+numGames = 1
 setMinimax = False
 
 for i in range(numGames):
 
     print("\n##### Start glados GAME #####\n")
     
-    mainBoard = board.board(6, 4, '[]', ['L', 'F', 'R'])
+    mainBoard = board.board(8, 8, '[]', ['L', 'F', 'R'])
 
     player01 = player.player('WW', 0, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic], mainBoard)
     player02 = player.player('BB', 1, 1, [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic], mainBoard)
@@ -29,7 +30,7 @@ for i in range(numGames):
     board.setStartingPieces(player01)
     board.setStartingPieces(player02)
     board.printBoard(mainBoard.field)
-
+    display.draw_board(mainBoard)
     currentPlayer = player01
     turnCounter = 0
 
@@ -70,28 +71,32 @@ for i in range(numGames):
                 mainBoard.field = currentState.nextTurns[i].state
                 break
 
+        display.draw_board(mainBoard)
+       
+
+
         if printTurns:
             print("Player " + str(currentPlayer.turn) + "'s turn:")
             print("Turn: " + str(turnCounter))
             print("Selected Heuristic: " + str(currentState.heuristic))
             board.printBoard(mainBoard.field)
         
-
+      
         turnCounter += 1
         currentPlayer = currentPlayer.opponent
         currentState = None
 
     #end while not endGame
-
+    
     print("\n\n\n##### GAME OVER #####")
     print("Turns made: " + str(turnCounter) + ".\n")
     print("Winner Player: " + str((turnCounter-1)%2))
     print("Final state of board:\n")
     board.printBoard(mainBoard.field)
     winCounter[(turnCounter-1)%2] += 1
-
+    display.draw_board(mainBoard)
     print("Wins:")
     print(winCounter)
+    display.quit()
 
 #end for 10 games
-
