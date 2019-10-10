@@ -212,11 +212,12 @@ def runGame(fPlayer1, fPlayer2, fBoard):
 
 
         #print turn
+        """
         print("Player " + str(currentPlayer.turn) + "'s turn:")
         print("Turn: " + str(turnCounter))
         print("Selected Heuristic: " + str(currentState.heuristic))
         printBoard(fBoard.field)
-
+        """
 
         #get ready for next turn
         turnCounter += 1
