@@ -16,7 +16,11 @@ randomTiebreakers = True
 
 
 class player(object):
-    def __init__(self, token, turn, heuristic, strategies, board):
+    def __init__(self, name, token, turn, heuristic, strategies, board):
+        #name of player
+        #   usually "White" or "Black"
+        self.name = name
+        
         #token should be a two character string 
         #   meant to represent a player's piece on a  board
         self.token = token
@@ -164,13 +168,6 @@ def runForward(fPlayer, fState):
     else:
         startRow = 0
 
-    """
-    print(startRow)
-    print(endRow)
-    print(direction) 
-    print()
-    """
-
     foundPiece = False
 
     while endRow != startRow:
@@ -188,3 +185,11 @@ def runForward(fPlayer, fState):
     return (h/fPlayer.board.row)
 
 #end run forward
+
+
+#defensive heuristic 2
+#   gives higher score to board states in which the player 
+#   moves its pieces forward in unison, like a wall
+def moveWall(fPlayer, fState):
+    return .5
+#end moveWall
