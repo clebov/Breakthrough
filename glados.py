@@ -24,8 +24,8 @@ for i in range(numGames):
     
     mainBoard = board.board(8, 8, '[]', ['L', 'F', 'R'])
 
-    player01 = player.player('WW', 0, 1, {player.runForward}, mainBoard)
-    player02 = player.player('BB', 1, 1, {player.runForward}, mainBoard)    
+    player01 = player.player('WW', 0, 1, {player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic}, mainBoard)
+    player02 = player.player('BB', 1, 1, {player.aboutToWin, player.aboutToLose, player.offensiveHeuristic, player.defensiveHeuristic, player.runForward}, mainBoard)    
     player.setOpponents(player01, player02)
     board.setStartingPieces(player01)
     board.setStartingPieces(player02)

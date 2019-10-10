@@ -7,9 +7,10 @@ searchDepth = 3
 
 
 def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
+    global searchDepth
+
     #define tree to be returned at end of function
     newStates = []
-    
 
     #get current player
     #if fCurrentTurn % 2 == fPlayer.turn:
@@ -25,13 +26,16 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
                 for move in fPlayer.board.moves:
                     tempState = copy.deepcopy(fState.state)
                     if(board.makeMove(tempState, fPlayer, int(i), int(j), move)):
+                        #if producing a terminal node, calculate heuristic
+                        h = 0
+                        if(fDepth == searchDepth-1):
+                            h = player.highHeuristic(fPlayer, copy.deepcopy(tempState))
                         #if a valid move can be made, add that move to the list of possible next turns
-                        newStates.append(tree.Node(player.highHeuristic(fPlayer, copy.deepcopy(tempState)), copy.deepcopy(tempState))) 
+                        newStates.append(tree.Node(h, copy.deepcopy(tempState))) 
                         #board.printBoard(tempState)
     #end for i, j
 
     #recurse to the appropriate depth
-    global searchDepth
     if fDepth < searchDepth-1:
         for b in range(len(newStates)):
             #print("HEllo World")
