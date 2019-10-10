@@ -1,3 +1,11 @@
+import tree
+import brainV2
+import player
+#import display
+import copy
+import math
+
+
 #create a board object
 class board(object):
     def __init__(self, row, col, blank, moves):
@@ -34,7 +42,7 @@ def setStartingPieces(fPlayer):
             fPlayer.board.field[0][i] = fPlayer.token
             fPlayer.board.field[1][i] = fPlayer.token
     else:
-        print("Error: board.py: setStartingPieces: " +
+        print("Error: boardV2.py: setStartingPieces: " +
               "player has invalid turn order: "+str(fPlayer))
 #end setStartingPieces 
 
@@ -141,4 +149,93 @@ def endGame(fBoard):
 #end endGame
 
 
+
 #run game
+#   takes two player objects and a board object as parameters
+#   returns a list of game statistics, gameStats, including:
+#   0: the winner of the game, 1: the turn counter, 2: final state of the board
+#   3: player 1 total nodes, 4: player 2 total nodes
+#   5: player 1 workers captured, 6: player 2 workers captured
+def runGame(fPlayer1, fPlayer2, fBoard):
+
+    #initialize game stats
+    gameStats = ['', 0, None, 0, 0, 0, 0] 
+
+    #set counters for game stats
+    turnCounter = 0
+    p1nodes = 0
+    p2nodes = 0
+    p1captures = 0
+    p2captures = 0
+
+    #get players ready
+    player.setOpponents(fPlayer1, fPlayer2)
+    setStartingPieces(fPlayer1)
+    setStartingPieces(fPlayer2)
+    
+    #find first player
+    if(fPlayer1.turn == 0):
+        currentPlayer = fPlayer1
+    else:
+        currentPlayer = fPlayer2
+    #end if else currentPlayer
+
+    #display board on screen
+    #display.draw_board(fBoard)
+
+
+    #start game
+    while(not(brainV2.endGame(fBoard.field, currentPlayer.opponent))):
+
+        #establish current state of board
+        currentState = tree.Node(0, copy.deepcopy(fBoard.field))
+
+        #find next available moves
+        currentState.nextTurns = brainV2.getPossibleStates(currentPlayer, currentState, turnCounter, 0)
+
+        #apply alphabeta or minimax based off player's strategy
+        if (currentPlayer.algorithm):
+            brainV2.alphaBeta(currentState, 0, (0-math.inf), (math.inf))
+        else:
+            brainV2.minimax(currentState, 0) 
+
+        #find best move
+        for i in range(len(currentState.nextTurns)):
+            if currentState.heuristic == tree.maxHeuristic(currentState.nextTurns[i]):
+                #make best move
+                fBoard.field = currentState.nextTurns[i].state
+                break
+        #end for i in nextTurns
+
+
+        #display.draw_board(fBoard)
+
+
+        #print turn
+        print("Player " + str(currentPlayer.turn) + "'s turn:")
+        print("Turn: " + str(turnCounter))
+        print("Selected Heuristic: " + str(currentState.heuristic))
+        printBoard(fBoard.field)
+
+
+        #get ready for next turn
+        turnCounter += 1
+        currentPlayer = currentPlayer.opponent
+        currentState = None
+
+    #end while not endGame
+
+
+    print("\n\n\n##### GAME OVER #####")
+    print("Turns made: " + str(turnCounter) + ".\n")
+    print("Winner: " + currentPlayer.opponent.name + "!")
+    print("Final state of board:\n")
+    printBoard(fBoard.field)
+    #winCounter[(turnCounter-1)%2] += 1
+    #display.draw_board(fBoard)
+    #print("Wins:")
+    #print(winCounter)
+    #display.quit()
+
+
+#end run game

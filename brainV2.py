@@ -3,6 +3,8 @@ import copy
 import board
 import player
 import tree
+import math
+
 searchDepth = 3
 
 
@@ -94,7 +96,7 @@ def alphaBeta(fNode,fTurn,alpha,beta):
     start = 0
     end = 0
 
-    start=timer()
+    #start=timer()
     #all trees should be built to global searchDepth variable
     #   so we know at that depth is the terminal nodes
     global searchDepth
@@ -135,7 +137,7 @@ def alphaBeta(fNode,fTurn,alpha,beta):
             if beta <= alpha:                
                 break
         fNode.heuristic = best
-    end = timer()
+    #end = timer()
     #print("The amout of time that AlphaBeta took:", timedelta(seconds = end - start))
 
 

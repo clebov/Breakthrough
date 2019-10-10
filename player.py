@@ -16,7 +16,7 @@ randomTiebreakers = True
 
 
 class player(object):
-    def __init__(self, name, token, turn, heuristic, strategies, board):
+    def __init__(self, name, token, turn, heuristic, strategies, algorithm, board):
         #name of player
         #   usually "White" or "Black"
         self.name = name
@@ -40,6 +40,11 @@ class player(object):
         #   high level heuristics should return the sum of heuristics in 
         #   strategies for a given player
         self.strategies = strategies
+
+        #player algorithm,
+        #   true for alphabeta
+        #   false for minimax only
+        self.algorithm = algorithm
 
         #board is the board that the player is placed on
         self.board = board
