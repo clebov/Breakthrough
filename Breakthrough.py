@@ -2,7 +2,7 @@ import boardV2
 import brainV2
 import player
 
-b = 6
+b = 8
 
 print("\n################### Start Breakthrough.py ###################\n")
 
