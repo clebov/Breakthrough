@@ -75,14 +75,14 @@ def minimax(fNode, fDepth):
             fNode.heuristic = tree.maxHeuristic(fNode)
         #if black player (odd turns), use min heuristic
         elif fDepth % 2 == 1:
-            fNode.heuristic = tree.minHeuristic(fNode)
+            fNode.heuristic = tree.maxHeuristic(fNode)
 
     #if white player (even turns), use max heuristic
     if fDepth % 2 == 0:
         fNode.heuristic = tree.maxHeuristic(fNode)
     #if black player (odd turns), use min heuristic
     elif fDepth % 2 == 1:
-        fNode.heuristic = tree.minHeuristic(fNode)
+        fNode.heuristic = tree.maxHeuristic(fNode)
 
     #print("The amout of time that minimax took:", timedelta(seconds = end - start))
 #end minimax

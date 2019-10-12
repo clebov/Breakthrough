@@ -144,7 +144,7 @@ def defensiveHeuristic(fPlayer, fState):
 def aboutToWin(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer):
-        h += 1*fPlayer.heuristic
+        h += 2*fPlayer.heuristic
     return h
 #end about to win
 
@@ -155,7 +155,7 @@ def aboutToWin(fPlayer, fState):
 def aboutToLose(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer.opponent):
-        h -= 1*fPlayer.heuristic
+        h -= 2*fPlayer.heuristic
     return h
 #end about to lose
 
@@ -196,5 +196,30 @@ def runForward(fPlayer, fState):
 #   gives higher score to board states in which the player 
 #   moves its pieces forward in unison, like a wall
 def moveWall(fPlayer, fState):
-    return .5
+    h = fPlayer.board.row
+
+    direction = (2*fPlayer.turn)-1
+
+    endRow = ((fPlayer.board.row-1)*fPlayer.turn)
+    if(endRow == 0):
+        startRow = fPlayer.board.row-1
+    else:
+        startRow = 0
+
+    foundPiece = False
+
+    while endRow != startRow:
+        for i in range(fPlayer.board.col):
+            if fState[endRow][i] == fPlayer.token:
+                foundPiece = True
+                break
+        if foundPiece:
+            break
+        endRow -= direction
+
+    for i in range(fPlayer.board.col):
+        if fState[endRow][i] == fPlayer.token: 
+            h += 1
+
+    return (h/fPlayer.board.col)
 #end moveWall
