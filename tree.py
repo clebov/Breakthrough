@@ -156,12 +156,12 @@ def printOneBranch(root):
 #end printone branch
 
 
-def writeTree(root): 
-    global nodeCounter
+def writeTree(root, fileName): 
+    nodeCounter = 0
     depthCounter = 0
 
     #open file
-    file = open("tree.txt", "w+")
+    file = open(fileName, "w+")
 
 
 

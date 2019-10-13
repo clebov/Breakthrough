@@ -5,6 +5,7 @@ import player
 import copy
 import math
 
+nodeCounter = 0
 
 #create a board object
 class board(object):
@@ -34,17 +35,16 @@ def setStartingPieces(fPlayer):
     #if first player
     if fPlayer.turn == 0:
         for i in range(fPlayer.board.col):
-            fPlayer.board.field[fPlayer.board.row-1][i] = fPlayer.token
-            fPlayer.board.field[fPlayer.board.row-2][i] = fPlayer.token
+            fPlayer.board.field[fPlayer.board.row - 1][i] = fPlayer.token
+            fPlayer.board.field[fPlayer.board.row - 2][i] = fPlayer.token
     #if first player
     elif fPlayer.turn == 1:
         for i in range(fPlayer.board.col):
             fPlayer.board.field[0][i] = fPlayer.token
             fPlayer.board.field[1][i] = fPlayer.token
     else:
-        print("Error: boardV2.py: setStartingPieces: " +
-              "player has invalid turn order: "+str(fPlayer))
-#end setStartingPieces 
+        print("Error: boardV2.py: setStartingPieces: " + "player has invalid turn order: " + str(fPlayer))
+#end setStartingPieces
 
 
 #check if a location is on the board
@@ -59,11 +59,13 @@ def isOnBoard(fBoard, fRow, fCol):
 #make a valid move, follows game rules for Breakthrough
 #   returns true if a move was made or false if an error was found
 #   player will be 0 for White, or 1 for Black
-#   move refers to a character, L, F, or R, to reference a left, forward, or right move
+#   move refers to a character, L, F, or R, to reference a left, forward, or
+#   right move
 #   left and right flip orientation depending on the player
 #       (black is at the top facing down, white is at the bottom facing up)
 def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
-    #TODO: CHRIS: Copy this function and rename the copy as makeMoveGUI([params])
+    #TODO: CHRIS: Copy this function and rename the copy as
+    #makeMoveGUI([params])
     
     #check that valid space is being targeted
     if (not(isOnBoard(fPlayer.board, oldRow, oldCol))):
@@ -95,7 +97,7 @@ def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
     elif move == 'L':   #left
         horiz = vert
     elif move == 'R':   #right
-        horiz = 0-vert
+        horiz = 0 - vert
     else:
         #print("Error, makeMove: please enter a valid move (L, F, or R)\n")
         return False
@@ -113,15 +115,18 @@ def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
     #determine if potential move is blocked
     #blocked by a friendly piece
     if(fBoard[newRow][newCol] == fPlayer.token):
-        #print("Error, makeMove: cannot move into friendly piece " + playerToken + 
+        #print("Error, makeMove: cannot move into friendly piece " +
+        #playerToken +
         #      " at (" + str(newRow) + ", " + str(newCol) + "): " +
         #      fBoard[newRow][newCol] + ".\n")
         return False
 
     #blocked by enemy piece in front of player
     if(move == 'F' and (fBoard[newRow][newCol] != fPlayer.board.blank)):
-        #print("Error, makeMove: cannot move directly forward into enemy piece " + 
-        #      enemyToken + " at (" + str(newRow) + ", " + str(newCol) + ").\n")
+        #print("Error, makeMove: cannot move directly forward into enemy piece
+        #" +
+        #      enemyToken + " at (" + str(newRow) + ", " + str(newCol) +
+        #      ").\n")
         return False
 
     #at this point, the new move is:
@@ -130,8 +135,8 @@ def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
     #   is not block by an enemy piece if it is a forward move
     #therefore move piece
     #print("makeMove: moving piece " + fBoard[oldRow][oldCol] + " from (" +
-    #      str(oldRow) + ", " + str(oldCol) + ") to (" + 
-    #      str(newRow) + ", " + str(newCol) + ").") 
+    #      str(oldRow) + ", " + str(oldCol) + ") to (" +
+    #      str(newRow) + ", " + str(newCol) + ").")
     fBoard[newRow][newCol] = fPlayer.token
     fBoard[oldRow][oldCol] = fPlayer.board.blank
     return True
@@ -139,15 +144,25 @@ def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
 #end makeMove
 
 
-#check for win condition and return
-def endGame(fBoard):
-    win = False
-    for i in range(col):
-        if (fBoard[0][i] == whiteToken) or (fBoard[row-1][i] == blackToken):
-            win = True
-    return win
-#end endGame
+#detect captured piece
+#compared two board states and determines whether a piece was captured
+def findCapturedPieces(fPlayer, fOldState, fNewState):
+    oldNumPieces = 0
+    newNumPieces = 0
+    
+    for i in range(fPlayer.board.row):
+        for j in range(fPlayer.board.col):
+            if fOldState[i][j] == fPlayer.opponent.token:
+                oldNumPieces += 1
+            if fNewState[i][j] == fPlayer.opponent.token:
+                newNumPieces += 1
+    #end for i and j
 
+    if newNumPieces < oldNumPieces:
+        return True
+    else:
+        return False
+#end find captured pieces
 
 
 #run game
@@ -162,6 +177,7 @@ def runGame(fPlayer1, fPlayer2, fBoard):
     gameStats = ['', 0, None, 0, 0, 0, 0] 
 
     #set counters for game stats
+    global nodeCounter
     turnCounter = 0
     p1nodes = 0
     p2nodes = 0
@@ -193,18 +209,40 @@ def runGame(fPlayer1, fPlayer2, fBoard):
         #find next available moves
         currentState.nextTurns = brainV2.getPossibleStates(currentPlayer, currentState, turnCounter, 0)
 
+        #output node tree
+        """
+        outfile = "outputFiles/treeForTurn_" + str(turnCounter) + ".txt"
+        tree.writeTree(currentState, outfile)
+        """
+
+        #increment node counters for current player
+        if(turnCounter % 2 == 0):
+            p1nodes += nodeCounter
+        else:
+            p2nodes += nodeCounter
+        nodeCounter = 0
+
         #apply alphabeta or minimax based off player's strategy
-        if (currentPlayer.algorithm):
-            brainV2.alphaBeta(currentState, 0, (0-math.inf), (math.inf))
+        if(currentPlayer.algorithm):
+            brainV2.alphaBeta(currentState, 0, (0 - math.inf), (math.inf))
         else:
             brainV2.minimax(currentState, 0) 
 
         #find best move
         for i in range(len(currentState.nextTurns)):
             if currentState.heuristic == tree.maxHeuristic(currentState.nextTurns[i]):
+
+				#increment captured pieces counter for current player
+                if(findCapturedPieces(currentPlayer, currentState.state, currentState.nextTurns[i].state)):
+                    if(turnCounter % 2 == 0):
+                        p1captures += 1
+                    else:
+                        p2captures += 1
+
                 #make best move
                 fBoard.field = currentState.nextTurns[i].state
                 break
+
         #end for i in nextTurns
 
 
@@ -226,7 +264,15 @@ def runGame(fPlayer1, fPlayer2, fBoard):
 
     #end while not endGame
 
+    gameStats[0] = currentPlayer.opponent.name
+    gameStats[1] = turnCounter 
+    gameStats[2] = fBoard.field
+    gameStats[3] = p1nodes
+    gameStats[4] = p2nodes
+    gameStats[5] = p1captures
+    gameStats[6] = p2captures
 
+    
     print("\n\n\n##### GAME OVER #####")
     print("Turns made: " + str(turnCounter) + ".\n")
     print("Winner: " + currentPlayer.opponent.name + "!")
@@ -237,6 +283,8 @@ def runGame(fPlayer1, fPlayer2, fBoard):
     #print("Wins:")
     #print(winCounter)
     #display.quit()
+    nodeCounter = 0
 
+    return gameStats
 
 #end run game

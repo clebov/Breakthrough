@@ -4,6 +4,7 @@ import board
 import player
 import tree
 import math
+import boardV2
 
 searchDepth = 3
 
@@ -34,6 +35,7 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
                             h = player.highHeuristic(fPlayer, copy.deepcopy(tempState))
                         #if a valid move can be made, add that move to the list of possible next turns
                         newStates.append(tree.Node(h, copy.deepcopy(tempState))) 
+                        boardV2.nodeCounter += 1
                         #board.printBoard(tempState)
     #end for i, j
 

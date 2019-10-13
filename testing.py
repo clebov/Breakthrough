@@ -1,34 +1,32 @@
 #testing file to run as main to check external funtions
-import board
+import boardV2
 import player
-import brain
 import brainV2
 import tree
+import copy
+import math
+
+
+
 
 print("\n################### Start testing.py ###################\n")
 
-test05 = board.board(8, 8, '_', {'L', 'F', 'R'})
-
-player01 = player.player('W', 0, 1, {player.aboutToWin, player.offensiveHeuristic, player.runForward}, test05)
-player02 = player.player('B', 1, 1, {player.defensiveHeuristic, player.aboutToLose}, test05)
-player.setOpponents(player01, player02)
-board.setStartingPieces(player01)
-board.setStartingPieces(player02)
-
-board.placePiece(test05.field, 1, 4, player01.token)
-#board.placePiece(test05.field, 2, 3, board.whiteToken)
-#board.placePiece(test05.field, 2, 3, board.whiteToken)
-
-board.printBoard(test05.field)
-
-print(player.runForward(player01, test05.field))
-print()
-print(player.runForward(player02, test05.field))
+legalMoves = ['L', 'F', 'R']
+offensiveStrategy1 = [player.aboutToWin, player.aboutToLose, player.offensiveHeuristic]
+defensiveStrategy1 = [player.aboutToWin, player.aboutToLose, player.defensiveHeuristic]
+offensiveStrategy2 = [player.aboutToWin, player.aboutToLose, player.runForward, player.offensiveHeuristic]
+defensiveStrategy2 = [player.aboutToWin, player.aboutToLose, player.moveWall, player.defensiveHeuristic]
 
 
+#Game 1:
+#   Minimax Offensive Heuristic 1 VS AlphaBeta Offensive Heuristic 1
+game1board = boardV2.board(5, 5, "[]", legalMoves)
+player1 = player.player("White1", "WW", 0, 1, offensiveStrategy1, False, game1board)
+player2 = player.player("Black1", "BB", 1, 1, offensiveStrategy1, True, game1board)
 
-#ignore this comment
-#   ignore this comment too
+print(boardV2.runGame(player1, player2, game1board))
+
+
 
 
 
@@ -57,6 +55,43 @@ print("\n################### End testing.py ###################\n")
 
 
 """
+
+
+
+
+
+
+
+
+
+test05 = board.board(8, 8, '_', {'L', 'F', 'R'})
+
+player01 = player.player('W', 0, 1, {player.aboutToWin, player.offensiveHeuristic, player.runForward}, test05)
+player02 = player.player('B', 1, 1, {player.defensiveHeuristic, player.aboutToLose}, test05)
+player.setOpponents(player01, player02)
+board.setStartingPieces(player01)
+board.setStartingPieces(player02)
+
+board.placePiece(test05.field, 1, 4, player01.token)
+#board.placePiece(test05.field, 2, 3, board.whiteToken)
+#board.placePiece(test05.field, 2, 3, board.whiteToken)
+
+board.printBoard(test05.field)
+
+print(player.runForward(player01, test05.field))
+print()
+print(player.runForward(player02, test05.field))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
