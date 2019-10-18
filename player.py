@@ -1,3 +1,12 @@
+#Authors:
+#Christopher Lebovits 
+#Dylan Wheeler
+
+#Date: 2019 10 18
+#Course: CSC 412 - Introduction to Artificial Intelligence 
+#Instructor: Dr. Bo Li
+
+
 #this file defines a player class,
 #   players have tokens to represent their piece on the board, 
 #   an order in which they take turns

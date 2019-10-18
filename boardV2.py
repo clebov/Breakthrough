@@ -1,3 +1,12 @@
+#Authors:
+#Christopher Lebovits 
+#Dylan Wheeler
+
+#Date: 2019 10 18
+#Course: CSC 412 - Introduction to Artificial Intelligence 
+#Instructor: Dr. Bo Li
+
+
 import player
 import brainV2
 import treeV2
