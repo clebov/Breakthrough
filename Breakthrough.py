@@ -3,7 +3,7 @@ import player
 import boardV2
 import display
 
-b = 8
+b = 5
 
 print("\n################### Start Breakthrough.py ###################\n")
 
@@ -15,7 +15,8 @@ defensiveStrategy2 = [player.aboutToWin, player.aboutToLose, player.moveWall, pl
 
 display.startScreen()
 
-#Game 
+
+#Game 1
 match ="Minimax Offensive Heuristic 1 VS AlphaBeta Offensive Heuristic 1"
 game1board = boardV2.board(b, b, "[]", legalMoves)
 player1 = player.player("White", "WW", 0, 1, offensiveStrategy1, False, game1board)
@@ -68,5 +69,11 @@ player12 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, game6boa
 print(boardV2.runGame(player11, player12, game6board,match))
 
 
+#Game 7:
+match = "Offensive Heuristic 2 VS Defensive Heuristic 2, oblong board"
+game7board = boardV2.board(5, 10, "[]", legalMoves)
+player13 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, game7board)
+player14 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, game7board)
 
+print(boardV2.runGame(player13, player14, game7board,match))
 

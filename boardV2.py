@@ -165,6 +165,35 @@ def findCapturedPieces(fPlayer, fOldState, fNewState):
 #end find captured pieces
 
 
+#bestMoveIndex
+#   finds and returns the index of the best move in an array such that
+#       it has the highest heuristic but does not lead to a losing move when
+#       the opponent takes the next turn.
+#   This should ensure if the player is about to lose due to his openent 
+#       moving to the his home row, that he does not take a turn which allows that to happen.
+def bestMoveIndex(fPlayer, fCurrentState):
+
+    #if player can win, make move
+    for j in range(len(fCurrentState.nextTurns)):
+        if (brainV2.endGame(fCurrentState.nextTurns[j].state, fPlayer)):
+            return j
+
+    #find best non-losing move
+    best = 0
+    for i in range(len(fCurrentState.nextTurns)):
+        if(fCurrentState.nextTurns[best].heuristic < fCurrentState.nextTurns[i].heuristic):
+            fail = False
+            for each in fCurrentState.nextTurns[i].nextTurns:
+                if brainV2.endGame(each.state, fPlayer.opponent):
+                    fail = True
+            
+            if not fail:
+                best = i
+    #end for i in nextTurns
+    return best
+#end bestMoveIndex
+
+
 #run game
 #   takes two player objects and a board object as parameters
 #   returns a list of game statistics, gameStats, including:
@@ -261,22 +290,24 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
         start = 0
         end = 0
 
-        #find best move
+        #find best non-losing move
+        best = bestMoveIndex(currentPlayer, currentState)
+        """
         for i in range(len(currentState.nextTurns)):
-            if currentState.heuristic == tree.maxHeuristic(currentState.nextTurns[i]):
-
-				#increment captured pieces counter for current player
-                if(findCapturedPieces(currentPlayer, currentState.state, currentState.nextTurns[i].state)):
-                    if(turnCounter % 2 == 0):
-                        p1captures += 1
-                    else:
-                        p2captures += 1
-
-                #make best move
-                fBoard.field = currentState.nextTurns[i].state
-                break
-
+            if((currentState.nextTurns[best].heuristic < currentState.nextTurns[i].heuristic) and not(brainV2.endGame(currentState.nextTurns[i].state, currentPlayer.opponent))):
+                best = i
         #end for i in nextTurns
+        """
+
+		#increment captured pieces counter for current player
+        if(findCapturedPieces(currentPlayer, currentState.state, currentState.nextTurns[best].state)):
+            if(turnCounter % 2 == 0):
+                p2captures += 1
+            else:
+                p1captures += 1
+
+        #make best move
+        fBoard.field = currentState.nextTurns[best].state
 
 
         display.draw_board(fBoard)

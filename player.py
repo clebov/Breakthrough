@@ -81,6 +81,13 @@ def highHeuristic(fPlayer, fState):
     for strategy in fPlayer.strategies:
         high += strategy(fPlayer, fState)
     #end for strategies
+
+    #negative heuristics break certain decision making processes
+    #   set to 0 if negative
+    if(high < 0):
+        high = 0
+    #end if
+
     return high
 #end high level heuristic
 
@@ -118,7 +125,7 @@ def offensiveHeuristic(fPlayer, fState):
                 h -= fPlayer.heuristic
 
     #end for i, j
-    return (h/(fPlayer.board.col * 2))
+    return 3*(h/(fPlayer.board.col * 2))
 #end offensive heuristic
 
 
@@ -134,7 +141,7 @@ def defensiveHeuristic(fPlayer, fState):
                 h += fPlayer.heuristic
     
     #end for i, j
-    return (h/(fPlayer.board.col * 2))
+    return 3*(h/(fPlayer.board.col * 2))
 #end defensive heuristic
 
 
@@ -144,7 +151,7 @@ def defensiveHeuristic(fPlayer, fState):
 def aboutToWin(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer):
-        h += 2*fPlayer.heuristic
+        h += 5*fPlayer.heuristic
     return h
 #end about to win
 
@@ -155,7 +162,7 @@ def aboutToWin(fPlayer, fState):
 def aboutToLose(fPlayer, fState):
     h = 0
     if brainV2.endGame(fState, fPlayer.opponent):
-        h -= 2*fPlayer.heuristic
+        h -= 5*fPlayer.heuristic
     return h
 #end about to lose
 
