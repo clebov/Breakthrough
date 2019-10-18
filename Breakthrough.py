@@ -1,9 +1,9 @@
-import brainV2
 import player
 import boardV2
+import brainV2
 import display
 
-b = 5
+b = 8
 
 print("\n################### Start Breakthrough.py ###################\n")
 

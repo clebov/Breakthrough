@@ -1,10 +1,9 @@
-
-import copy
-import board
 import player
-import tree
-import math
+import treeV2
 import boardV2
+
+import math
+import copy
 
 searchDepth = 3
 
@@ -28,13 +27,13 @@ def getPossibleStates(fPlayer, fState, fCurrentTurn, fDepth):
                 #check all valid moves that player can make from the current state
                 for move in fPlayer.board.moves:
                     tempState = copy.deepcopy(fState.state)
-                    if(board.makeMove(tempState, fPlayer, int(i), int(j), move)):
+                    if(boardV2.makeMove(tempState, fPlayer, int(i), int(j), move)):
                         #if producing a terminal node, calculate heuristic
                         h = 0
                         if(fDepth == searchDepth-1):
                             h = player.highHeuristic(fPlayer, copy.deepcopy(tempState))
                         #if a valid move can be made, add that move to the list of possible next turns
-                        newStates.append(tree.Node(h, copy.deepcopy(tempState))) 
+                        newStates.append(treeV2.Node(h, copy.deepcopy(tempState))) 
                         boardV2.nodeCounter += 1
                         #board.printBoard(tempState)
     #end for i, j
@@ -74,17 +73,17 @@ def minimax(fNode, fDepth):
     else:
         #if white player (even turns), use max heuristic
         if fDepth % 2 == 0:
-            fNode.heuristic = tree.maxHeuristic(fNode)
+            fNode.heuristic = treeV2.maxHeuristic(fNode)
         #if black player (odd turns), use min heuristic
         elif fDepth % 2 == 1:
-            fNode.heuristic = tree.maxHeuristic(fNode)
+            fNode.heuristic = treeV2.maxHeuristic(fNode)
 
     #if white player (even turns), use max heuristic
     if fDepth % 2 == 0:
-        fNode.heuristic = tree.maxHeuristic(fNode)
+        fNode.heuristic = treeV2.maxHeuristic(fNode)
     #if black player (odd turns), use min heuristic
     elif fDepth % 2 == 1:
-        fNode.heuristic = tree.maxHeuristic(fNode)
+        fNode.heuristic = treeV2.maxHeuristic(fNode)
 
     #print("The amout of time that minimax took:", timedelta(seconds = end - start))
 #end minimax
@@ -109,7 +108,7 @@ def alphaBeta(fNode,fTurn,alpha,beta):
         best = MIN     
         for i in range(len(fNode.nextTurns)):
             for j in range(len(fNode.nextTurns[i].nextTurns)):                     
-                val = tree.maxHeuristic(fNode.nextTurns[i].nextTurns[j])
+                val = treeV2.maxHeuristic(fNode.nextTurns[i].nextTurns[j])
                 best = max(best,val)
                 alpha = max(alpha,best)
                 if beta<=alpha:
@@ -120,25 +119,27 @@ def alphaBeta(fNode,fTurn,alpha,beta):
 
         best = MIN
         for k in range(len(fNode.nextTurns)):
-            val = tree.maxHeuristic(fNode.nextTurns[k])
+            val = treeV2.maxHeuristic(fNode.nextTurns[k])
             best = max(best,val)
             alpha = max(alpha,best)
             if beta<=alpha:
                 break
             fNode.nextTurns[k].heuristic = best
 
-        fNode.heuristic = tree.maxHeuristic(fNode) 
+        fNode.heuristic = treeV2.maxHeuristic(fNode) 
+    """
     else:
         best = MAX
         for i in range(len(fNode.nextTurns)): 
             
             for j in range(len(fNode.nextTurns[i].nextTurns)):
-                val = tree.minHeuristic(fNode.nextTurns[i].nextTurns[j])
+                val = treeV2.minHeuristic(fNode.nextTurns[i].nextTurns[j])
                 best = min(best, val)
                 beta = min(beta, best)
             if beta <= alpha:                
                 break
         fNode.heuristic = best
+    """
     #end = timer()
     #print("The amout of time that AlphaBeta took:", timedelta(seconds = end - start))
 

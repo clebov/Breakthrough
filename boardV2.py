@@ -1,10 +1,12 @@
-import tree
-import brainV2
 import player
+import brainV2
+import treeV2
 import display
+
 import copy
 import math
 from timeit import default_timer as timer
+
 nodeCounter = 0
 
 #create a board object
@@ -64,7 +66,6 @@ def isOnBoard(fBoard, fRow, fCol):
 #   left and right flip orientation depending on the player
 #       (black is at the top facing down, white is at the bottom facing up)
 def makeMove(fBoard, fPlayer, oldRow, oldCol, move):
-    #TODO: CHRIS: Copy this function and rename the copy as
     #makeMoveGUI([params])
     
     #check that valid space is being targeted
@@ -251,7 +252,7 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
     while(not(brainV2.endGame(fBoard.field, currentPlayer.opponent))):
 
         #establish current state of board
-        currentState = tree.Node(0, copy.deepcopy(fBoard.field))
+        currentState = treeV2.Node(0, copy.deepcopy(fBoard.field))
 
         #find next available moves
         currentState.nextTurns = brainV2.getPossibleStates(currentPlayer, currentState, turnCounter, 0)

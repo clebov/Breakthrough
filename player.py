@@ -6,7 +6,6 @@
 #
 #this file also contains the methods for a variety of player strategies
 
-import board
 import random
 import brainV2
 
@@ -75,9 +74,11 @@ def setOpponents(fPlayer01, fPlayer02):
 #high level heuristic
 def highHeuristic(fPlayer, fState):
     high = 0
+
     global randomTiebreakers
     if randomTiebreakers:
         high += (random.random()/100)
+
     for strategy in fPlayer.strategies:
         high += strategy(fPlayer, fState)
     #end for strategies
