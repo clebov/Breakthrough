@@ -1,5 +1,5 @@
 Authors:
-Christopher Lebovits 
+Christopher Lebovitz
 Dylan Wheeler
 
 Date: 2019 10 18
