@@ -1,10 +1,10 @@
 import tree
 import brainV2
 import player
-#import display
+import display
 import copy
 import math
-
+from timeit import default_timer as timer
 nodeCounter = 0
 
 #create a board object
@@ -168,13 +168,24 @@ def findCapturedPieces(fPlayer, fOldState, fNewState):
 #run game
 #   takes two player objects and a board object as parameters
 #   returns a list of game statistics, gameStats, including:
-#   0: the winner of the game, 1: the turn counter, 2: final state of the board
-#   3: player 1 total nodes, 4: player 2 total nodes
-#   5: player 1 workers captured, 6: player 2 workers captured
-def runGame(fPlayer1, fPlayer2, fBoard):
+#   0: the winner of the game 
+#   1: the turn counter
+#   2: final state of the board
+#   3: player 1 total nodes 
+#   4: player 2 total nodes
+#   5: player 1 workers captured 
+#   6: player 2 workers captured
+#   7: average runtime for AlphaBeta
+#   8: average runtime for MiniMax
+def runGame(fPlayer1, fPlayer2, fBoard, match):
 
     #initialize game stats
-    gameStats = ['', 0, None, 0, 0, 0, 0] 
+    gameStats = ['', 0, None, 0, 0, 0,0,0,0] 
+
+    #list to keep track of the time it takes to run AlphaBeta
+    timerAB = []
+    #list to keep track of teh time it take to run MiniMax
+    timerMM = []
 
     #set counters for game stats
     global nodeCounter
@@ -183,6 +194,15 @@ def runGame(fPlayer1, fPlayer2, fBoard):
     p2nodes = 0
     p1captures = 0
     p2captures = 0
+    abCounter = 0
+    mmCounter = 0
+    totalAB = 0
+    totalMM = 0
+
+    start = 0
+    end = 0
+    
+    display.printMatch(match)
 
     #get players ready
     player.setOpponents(fPlayer1, fPlayer2)
@@ -196,9 +216,7 @@ def runGame(fPlayer1, fPlayer2, fBoard):
         currentPlayer = fPlayer2
     #end if else currentPlayer
 
-    #display board on screen
-    #display.draw_board(fBoard)
-
+    display.draw_board(fBoard)
 
     #start game
     while(not(brainV2.endGame(fBoard.field, currentPlayer.opponent))):
@@ -224,9 +242,24 @@ def runGame(fPlayer1, fPlayer2, fBoard):
 
         #apply alphabeta or minimax based off player's strategy
         if(currentPlayer.algorithm):
+
+            start=timer()
             brainV2.alphaBeta(currentState, 0, (0 - math.inf), (math.inf))
+            end = timer()
+
+            totalAB += (end-start)
+            abCounter+=1
         else:
+            start=timer()
             brainV2.minimax(currentState, 0) 
+            end = timer()
+
+            totalMM += (end-start)
+            mmCounter+=1
+            gameStats[8] = totalMM / mmCounter
+
+        start = 0
+        end = 0
 
         #find best move
         for i in range(len(currentState.nextTurns)):
@@ -246,7 +279,7 @@ def runGame(fPlayer1, fPlayer2, fBoard):
         #end for i in nextTurns
 
 
-        #display.draw_board(fBoard)
+        display.draw_board(fBoard)
 
 
         #print turn
@@ -256,7 +289,7 @@ def runGame(fPlayer1, fPlayer2, fBoard):
         print("Selected Heuristic: " + str(currentState.heuristic))
         printBoard(fBoard.field)
         """
-
+       
         #get ready for next turn
         turnCounter += 1
         currentPlayer = currentPlayer.opponent
@@ -271,7 +304,12 @@ def runGame(fPlayer1, fPlayer2, fBoard):
     gameStats[4] = p2nodes
     gameStats[5] = p1captures
     gameStats[6] = p2captures
+    gameStats[7] = totalAB / abCounter
+    
 
+    
+    display.message_display(gameStats)
+    
     
     print("\n\n\n##### GAME OVER #####")
     print("Turns made: " + str(turnCounter) + ".\n")
@@ -279,10 +317,9 @@ def runGame(fPlayer1, fPlayer2, fBoard):
     print("Final state of board:\n")
     printBoard(fBoard.field)
     #winCounter[(turnCounter-1)%2] += 1
-    #display.draw_board(fBoard)
-    #print("Wins:")
-    #print(winCounter)
-    #display.quit()
+    display.draw_board(fBoard)
+   
+    
     nodeCounter = 0
 
     return gameStats
