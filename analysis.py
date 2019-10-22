@@ -36,6 +36,8 @@ def writeGameStats(fGameStats, fOffWins, fDefWins, fMatch, fFileName):
     file = open(fFileName, "a")
 
     file.write("Reporting data for " + fMatch + "\n") 
+    global numGames
+    file.write("Games analyzed: " + str(numGames) + "\n") 
     file.write("Average Number of Turns: " + str(fGameStats[0]) + "\n")
     file.write("Average Offensive Player Nodes Expanded: " + str(fGameStats[1]) + "\n")
     file.write("Average Defensive Player Nodes Expanded: " + str(fGameStats[2]) + "\n")
@@ -49,6 +51,8 @@ def writeGameStats(fGameStats, fOffWins, fDefWins, fMatch, fFileName):
 def printGameStats(fGameStats, fOffWins, fDefWins, fMatch):
 
     print("Reporting data for " + fMatch) 
+    global numGames
+    print("Games analyzed: " + str(numGames)) 
     print("Average Number of Turns: " + str(fGameStats[0]))
     print("Average Offensive Player Nodes Expanded: " + str(fGameStats[1]))
     print("Average Defensive Player Nodes Expanded: " + str(fGameStats[2]))
@@ -80,6 +84,7 @@ comprehensiveStrategy = [player.aboutToWin, player.aboutToLose, player.runForwar
 match = "Offensive 1 vs Defensive 1"
 
 for i in range(numGames):
+    print("Game: " + str(i)) 
     gameBoard = boardV2.board(b, b, "[]", legalMoves)
     player1 = player.player("White", "WW", 0, 1, offensiveStrategy1, True, gameBoard)
     player2 = player.player("Black", "BB", 1, 1, defensiveStrategy1, True, gameBoard)
@@ -121,6 +126,7 @@ defWins = 0
 match = "Offensive 2 vs Defensive 1"
 
 for i in range(numGames):
+    print("Game: " + str(i)) 
     gameBoard = boardV2.board(b, b, "[]", legalMoves)
     player1 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, gameBoard)
     player2 = player.player("Black", "BB", 1, 1, defensiveStrategy1, True, gameBoard)
@@ -162,6 +168,7 @@ defWins = 0
 match = "Offensive 1 vs Defensive 2"
 
 for i in range(numGames):
+    print("Game: " + str(i)) 
     gameBoard = boardV2.board(b, b, "[]", legalMoves)
     player1 = player.player("White", "WW", 0, 1, offensiveStrategy1, True, gameBoard)
     player2 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, gameBoard)
@@ -203,6 +210,7 @@ defWins = 0
 match = "Offensive 2 vs Defensive 2"
 
 for i in range(numGames):
+    print("Game: " + str(i)) 
     gameBoard = boardV2.board(b, b, "[]", legalMoves)
     player1 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, gameBoard)
     player2 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, gameBoard)
@@ -244,6 +252,7 @@ defWins = 0
 match = "All Heuristics for both players"
 
 for i in range(numGames):
+    print("Game: " + str(i)) 
     gameBoard = boardV2.board(b, b, "[]", legalMoves)
     player1 = player.player("White", "WW", 0, 1, comprehensiveStrategy, True, gameBoard)
     player2 = player.player("Black", "BB", 1, 1, comprehensiveStrategy, True, gameBoard)
