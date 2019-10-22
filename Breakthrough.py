@@ -12,7 +12,7 @@ import boardV2
 import brainV2
 import display
 
-#size of board to make a nxn board.
+#size of board to make a bxb board.
 b = 8
 
 print("\n################### Start Breakthrough.py ###################\n")
@@ -27,6 +27,7 @@ offensiveStrategy2 = [player.aboutToWin, player.aboutToLose, player.runForward, 
 defensiveStrategy2 = [player.aboutToWin, player.aboutToLose, player.moveWall, player.defensiveHeuristic]
 
 
+#GUI initialization
 display.startScreen()
 
 
@@ -35,7 +36,7 @@ match = "Minimax Offensive Heuristic 1 VS AlphaBeta Offensive Heuristic 1"
 game1board = boardV2.board(b, b, "[]", legalMoves)
 player1 = player.player("White", "WW", 0, 1, offensiveStrategy1, False, game1board)
 player2 = player.player("Black", "BB", 1, 1, offensiveStrategy1, True, game1board)
-boardV2.runGame(player1, player2, game1board,match)
+boardV2.runGame(player1, player2, game1board, match, True)
 
 
 #Game 2: (all following games use only AlphaBeta, not Minimax)
@@ -44,7 +45,7 @@ game2board = boardV2.board(b, b, "[]", legalMoves)
 player3 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, game2board)
 player4 = player.player("Black", "BB", 1, 1, defensiveStrategy1, True, game2board)
 
-boardV2.runGame(player3, player4, game2board,match)
+boardV2.runGame(player3, player4, game2board, match, True)
 
 
 #Game 3:
@@ -53,7 +54,7 @@ game3board = boardV2.board(b, b, "[]", legalMoves)
 player5 = player.player("White", "WW", 0, 1, defensiveStrategy2, True, game3board)
 player6 = player.player("Black", "BB", 1, 1, offensiveStrategy1, True, game3board)
 
-boardV2.runGame(player5, player6, game3board,match)
+boardV2.runGame(player5, player6, game3board, match, True)
 
 
 #Game 4:
@@ -62,7 +63,7 @@ game4board = boardV2.board(b, b, "[]", legalMoves)
 player7 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, game4board)
 player8 = player.player("Black", "BB", 1, 1, offensiveStrategy1, True, game4board)
 
-boardV2.runGame(player7, player8, game4board,match)
+boardV2.runGame(player7, player8, game4board, match, True)
 
 
 #Game 5:
@@ -71,7 +72,7 @@ game5board = boardV2.board(b, b, "[]", legalMoves)
 player9 = player.player("White", "WW", 0, 1, defensiveStrategy2, True, game5board)
 player10 = player.player("Black", "BB", 1, 1, defensiveStrategy1, True, game5board)
 
-boardV2.runGame(player9, player10, game5board,match)
+boardV2.runGame(player9, player10, game5board, match, True)
 
 
 #Game 6:
@@ -80,7 +81,7 @@ game6board = boardV2.board(b, b, "[]", legalMoves)
 player11 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, game6board)
 player12 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, game6board)
 
-boardV2.runGame(player11, player12, game6board,match)
+boardV2.runGame(player11, player12, game6board, match, True)
 
 
 #Game 7:
@@ -89,5 +90,5 @@ game7board = boardV2.board(5, 10, "[]", legalMoves)
 player13 = player.player("White", "WW", 0, 1, offensiveStrategy2, True, game7board)
 player14 = player.player("Black", "BB", 1, 1, defensiveStrategy2, True, game7board)
 
-boardV2.runGame(player13, player14, game7board,match)
+boardV2.runGame(player13, player14, game7board, match, True)
 

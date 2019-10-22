@@ -216,9 +216,9 @@ def bestMoveIndex(fPlayer, fCurrentState):
 #   6: player 2 workers captured
 #   7: average runtime for AlphaBeta
 #   8: average runtime for MiniMax
-def runGame(fPlayer1, fPlayer2, fBoard, match):
+def runGame(fPlayer1, fPlayer2, fBoard, fMatch, fShowGame):
 
-    #initialize game stats
+    #initialize game statistics for reporting
     gameStats = ['', 0, None, 0, 0, 0,0,0,0] 
 
     #list to keep track of the time it takes to run AlphaBeta
@@ -241,7 +241,9 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
     start = 0
     end = 0
     
-    display.printMatch(match)
+    if(fShowGame):
+        display.printMatch(fMatch)
+
 
     #get players ready
     player.setOpponents(fPlayer1, fPlayer2)
@@ -255,7 +257,9 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
         currentPlayer = fPlayer2
     #end if else currentPlayer
 
-    display.draw_board(fBoard)
+    if(fShowGame):
+        display.draw_board(fBoard)
+
 
     #start game
     while(not(brainV2.endGame(fBoard.field, currentPlayer.opponent))):
@@ -319,8 +323,8 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
         #make best move
         fBoard.field = currentState.nextTurns[best].state
 
-
-        display.draw_board(fBoard)
+        if(fShowGame):
+            display.draw_board(fBoard)
 
 
         #print turn
@@ -348,20 +352,21 @@ def runGame(fPlayer1, fPlayer2, fBoard, match):
     gameStats[7] = totalAB / abCounter
     
 
-    
-    display.message_display(gameStats)
-    
-    
-    print("\n\n\n##### GAME OVER #####")
-    print("Turns made: " + str(turnCounter) + ".\n")
-    print("Winner: " + currentPlayer.opponent.name + "!")
-    print("Final state of board:\n")
-    printBoard(fBoard.field)
-    #winCounter[(turnCounter-1)%2] += 1
-    display.draw_board(fBoard)
+    if(fShowGame):
+        print("\n\n\n##### GAME OVER #####")
+        print("Turns made: " + str(turnCounter) + ".\n")
+        print("Winner: " + currentPlayer.opponent.name + "!")
+        print("Final state of board:\n")
+        printBoard(fBoard.field)
+        #winCounter[(turnCounter-1)%2] += 1
+
+        display.message_display(gameStats)
+        display.draw_board(fBoard)
+    #end if
    
     
     nodeCounter = 0
+    turnCounter = 0
 
     return gameStats
 

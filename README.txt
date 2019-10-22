@@ -10,7 +10,7 @@ Instructor: Dr. Bo Li
 How to run this program:
 
 
-Make sure you have python installed and that you have pygame installed:
+Make sure you have python (Version 3) installed and that you have pygame installed:
     Python: https://www.python.org/downloads/
     pygame: https://www.pygame.org/download.shtml
 
@@ -18,12 +18,13 @@ In Windows, simply navigate to the same folder in which you found this readme an
     double click Breakthrough.py
 
 Alternatively you may open the same folder in which you found this readme in 
-    Visual Studio and, run Breakthrough.py with or without the debugger.
-
+    Visual Studio and run Breakthrough.py with or without the debugger.
+    Running without the debugger is recommended as the debugger can 
+    greatly slow down computational time. 
 
 
 In order for Breakthrough.py to function, 
-    the follwoing files must be included in the same folder:
+    the following files must be included in the same folder:
 
         WhitePawn.png
         BlackPawn.png
