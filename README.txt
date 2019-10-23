@@ -17,7 +17,8 @@ Make sure you have python (Version 3) installed and that you have pygame install
 In Windows, simply navigate to the same folder in which you found this readme and,
     double click Breakthrough.py
 
-Alternatively you may open the same folder in which you found this readme in 
+Alternatively, or if double clicking the file does not work,
+    you may open the same folder in which you found this readme in 
     Visual Studio and run Breakthrough.py with or without the debugger.
     Running without the debugger is recommended as the debugger can 
     greatly slow down computational time. 

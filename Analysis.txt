@@ -1,0 +1,60 @@
+Reporting data for Offensive 1 vs Defensive 1
+Games analyzed: 99
+Average Number of Turns: 41.121212121212125
+Average Offensive Player Nodes Expanded: 318348.35353535356
+Average Defensive Player Nodes Expanded: 275856.22222222225
+Average Offensive Player Workers Captured: 2.3535353535353534
+Average Defensive Player Workers Captured: 7.040404040404041
+Average Runtime of Alphabeta: 0.0
+Times Offensive Player Won: 97
+Times Defensive Player Won: 2
+
+
+Reporting data for Offensive 2 vs Defensive 1
+Games analyzed: 99
+Average Number of Turns: 35.85858585858586
+Average Offensive Player Nodes Expanded: 257314.0707070707
+Average Defensive Player Nodes Expanded: 232355.81818181818
+Average Offensive Player Workers Captured: 2.6363636363636362
+Average Defensive Player Workers Captured: 6.555555555555555
+Average Runtime of Alphabeta: 0.0
+Times Offensive Player Won: 98
+Times Defensive Player Won: 1
+
+
+Reporting data for Offensive 1 vs Defensive 2
+Games analyzed: 99
+Average Number of Turns: 36.61616161616162
+Average Offensive Player Nodes Expanded: 282836.68686868687
+Average Defensive Player Nodes Expanded: 254924.56565656565
+Average Offensive Player Workers Captured: 2.272727272727273
+Average Defensive Player Workers Captured: 6.878787878787879
+Average Runtime of Alphabeta: 0.0
+Times Offensive Player Won: 99
+Times Defensive Player Won: 0
+
+
+Reporting data for Offensive 2 vs Defensive 2
+Games analyzed: 99
+Average Number of Turns: 36.5959595959596
+Average Offensive Player Nodes Expanded: 263049.43434343435
+Average Defensive Player Nodes Expanded: 232727.36363636365
+Average Offensive Player Workers Captured: 2.6363636363636362
+Average Defensive Player Workers Captured: 7.01010101010101
+Average Runtime of Alphabeta: 0.0
+Times Offensive Player Won: 99
+Times Defensive Player Won: 0
+
+
+Reporting data for All Heuristics for both players
+Games analyzed: 99
+Average Number of Turns: 45.18181818181818
+Average Offensive Player Nodes Expanded: 279409.89898989897
+Average Defensive Player Nodes Expanded: 249937.9393939394
+Average Offensive Player Workers Captured: 5.626262626262626
+Average Defensive Player Workers Captured: 6.787878787878788
+Average Runtime of Alphabeta: 0.0
+Times Offensive Player Won: 51
+Times Defensive Player Won: 48
+
+
